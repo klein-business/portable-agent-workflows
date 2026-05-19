@@ -33,6 +33,7 @@ REQUIRED_ROLES = {
 
 REQUIRED_SKILLS = {
     "define-domain-model",
+    "shape-idea",
     "shape-spec",
     "create-phased-plan",
     "verify-implementation-plan",
@@ -42,6 +43,13 @@ REQUIRED_SKILLS = {
     "update-work-state",
     "create-handover",
     "write-portable-skill",
+}
+
+REQUIRED_ADAPTERS = {
+    "codex",
+    "opencode",
+    "claude",
+    "cursor",
 }
 
 REQUIRED_SKILL_KEYS = {
@@ -117,7 +125,7 @@ def test_glossary_defines_domain_model_terms_and_roles() -> None:
 
 
 def test_adapters_map_roles_and_capabilities() -> None:
-    for adapter_name in ("codex", "opencode"):
+    for adapter_name in REQUIRED_ADAPTERS:
         text = _read(AGENT_WORK / "adapters" / f"{adapter_name}.md")
         assert "# " in text
         assert "## Role Mapping" in text
