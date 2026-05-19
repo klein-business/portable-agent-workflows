@@ -718,7 +718,7 @@ In `docs/overview.md`, update the adapters/module description to mention Codex, 
 Add this feature row under `## Key Features`:
 
 ```markdown
-| Generated Harness Integration | Generates thin native entrypoints for Codex, Claude Code, and Cursor from `.agent-work/` source artifacts. | [Detail](features/generated-harness-integration.md) |
+| Generated Harness Integration | Generates thin native entrypoints for Codex, Claude Code, and Cursor from `.agent-work/` source artifacts. | Detail: `features/generated-harness-integration.md` |
 ```
 
 - [ ] **Step 4: Update adapter module docs**
@@ -774,7 +774,7 @@ version: 1.0
 
 # Feature: generated-harness-integration
 
-> Part of [Portable Agent Work Model](../overview.md)
+> Part of Portable Agent Work Model (`../overview.md`)
 
 ## Summary
 
@@ -802,9 +802,9 @@ The generator reads required source artifacts, renders checked-in templates, and
 
 | Module | Symbols | Role |
 |--------|---------|------|
-| [adapters](../modules/adapters.md) | `Codex Adapter`, `Claude Adapter`, `Cursor Adapter` | Defines harness-specific mappings consumed by generated files. |
-| [skills](../modules/skills.md) | `shape-idea`, `shape-spec`, `create-phased-plan` | Defines the workflows referenced by generated files. |
-| [validation-tests](../modules/validation-tests.md) | `test_generated_harness_files_are_current` | Prevents generated-file drift. |
+| `adapters` (`../modules/adapters.md`) | `Codex Adapter`, `Claude Adapter`, `Cursor Adapter` | Defines harness-specific mappings consumed by generated files. |
+| `skills` (`../modules/skills.md`) | `shape-idea`, `shape-spec`, `create-phased-plan` | Defines the workflows referenced by generated files. |
+| `validation-tests` (`../modules/validation-tests.md`) | `test_generated_harness_files_are_current` | Prevents generated-file drift. |
 
 ## Configuration
 
@@ -818,9 +818,9 @@ No environment variables are required. Run the generator from the repository roo
 
 ## Related Features
 
-- [Harness Adapters](harness-adapters.md)
-- [Portable Skill Lifecycle](portable-skill-lifecycle.md)
-- [Artifact Validation](artifact-validation.md)
+- Harness Adapters (`harness-adapters.md`)
+- Portable Skill Lifecycle (`portable-skill-lifecycle.md`)
+- Artifact Validation (`artifact-validation.md`)
 ```
 
 - [ ] **Step 8: Run documentation link check**
