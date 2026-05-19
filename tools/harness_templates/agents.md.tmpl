@@ -1,0 +1,20 @@
+{marker}
+
+# Portable Agent Work Model Instructions
+
+This file is generated from `.agent-work/` source artifacts. It does not redefine the domain model.
+
+## Source Of Truth
+
+- Glossary: `{glossary}`
+- Codex adapter: `{codex_adapter}`
+- Idea shaping skill: `{shape_idea}`
+- Spec shaping skill: `{shape_spec}`
+- Phased planning skill: `{create_phased_plan}`
+
+## Workflow
+
+- For creative work, unclear requests, new features, or behavior changes, use `{shape_idea}` before implementation.
+- After the idea direction is approved, use `{shape_spec}` to create the durable spec.
+- After the spec is approved, use `{create_phased_plan}` to create phased work artifacts.
+- Keep generated native files downstream of `.agent-work/`.
