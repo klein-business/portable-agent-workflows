@@ -36,3 +36,4 @@ This adapter maps `agent-work-v1` roles and capabilities to Codex execution patt
 - The Orchestrator keeps user approval gates explicit.
 - Implementers do not perform Git operations.
 - Reviews write findings and do not modify the reviewed files.
+- Generated `AGENTS.md` should point to `.agent-work/` artifacts instead of duplicating portable skills.

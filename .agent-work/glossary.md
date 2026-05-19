@@ -101,6 +101,7 @@ These are the centralized `agent-work-v1` gate names used by portable skills.
 - `domain_terms_approved`: Required before new or changed domain terms become source vocabulary for dependent artifacts or skills.
 - `skill_scope_confirmed`: Required before authoring or changing a portable skill's responsibilities and boundaries.
 - `skill_review_complete`: Required before a portable skill is used as a source of truth.
+- `idea_direction_approved`: Required before converting a shaped idea into a spec, plan, or implementation plan.
 - `spec_approval`: Required before converting a spec into a plan.
 - `plan_approval`: Required before implementation planning for large, risky, or multi-phase work.
 - `implementation_plan_ready`: Required before a phase implementation plan becomes executable as a work package.

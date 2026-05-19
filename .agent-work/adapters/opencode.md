@@ -36,3 +36,4 @@ This adapter maps `agent-work-v1` roles and capabilities to OpenCode execution p
 - The Orchestrator keeps approval gates explicit.
 - Implementers do not perform Git operations.
 - Reviews write findings and do not modify the reviewed files.
+- Generated native integration files must remain downstream of `.agent-work/` source artifacts.
