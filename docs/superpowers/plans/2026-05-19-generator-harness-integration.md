@@ -580,12 +580,12 @@ For creative work, unclear requests, new features, or behavior changes, start wi
 Create `tools/harness_templates/claude-shape-idea.md.tmpl`:
 
 ```markdown
-{marker}
-
 ---
 description: Shape a rough idea into an approved design direction before specs or implementation
 argument-hint: [idea or request]
 ---
+
+{marker}
 
 # Shape Idea
 
@@ -612,13 +612,13 @@ Follow the workflow, ask one clarifying question at a time when needed, present 
 Create `tools/harness_templates/cursor-agent-work.mdc.tmpl`:
 
 ```markdown
-{marker}
-
 ---
 description: Use the portable agent work model for idea shaping, specs, plans, reviews, and generated harness files.
 globs:
 alwaysApply: true
 ---
+
+{marker}
 
 # Portable Agent Work Model
 
