@@ -589,6 +589,8 @@ argument-hint: [idea or request]
 
 # Shape Idea
 
+This generated command does not redefine the domain model.
+
 Use the portable workflow in @{shape_idea}.
 
 Context sources:
