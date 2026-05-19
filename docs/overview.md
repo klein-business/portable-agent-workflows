@@ -27,12 +27,14 @@ agent-work-v1 glossary: terms, roles, artifact kinds, gates
     |
     +--> adapter mapping for Codex
     +--> adapter mapping for OpenCode
+    +--> adapter mapping for Claude Code
+    +--> adapter mapping for Cursor
     |
     v
 Persistent plan/spec/review/handover artifacts
     |
     v
-tests/test_agent_work_artifacts.py structural validation
+tests/test_agent_work_artifacts.py and tests/test_harness_integrations.py validation
 ```
 
 ### Tech Stack

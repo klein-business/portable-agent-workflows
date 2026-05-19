@@ -58,8 +58,8 @@ This module is responsible for reusable workflow behavior. Skills must describe 
 | `update-work-state` | skill | public | `.agent-work/skills/update-work-state/SKILL.md:2` | Updates statuses, todos, changelog, and next-step state. |
 | `create-handover` | skill | public | `.agent-work/skills/create-handover/SKILL.md:2` | Writes continuation state for future sessions. |
 | `write-portable-skill` | skill | public | `.agent-work/skills/write-portable-skill/SKILL.md:2` | Creates or updates portable skill artifacts. |
-| `required skill metadata` | schema | public | `tests/test_agent_work_artifacts.py:47` | Defines required frontmatter keys for every skill. |
-| `required skill sections` | schema | public | `tests/test_agent_work_artifacts.py:59` | Defines required body sections for every skill. |
+| `required skill metadata` | schema | public | `tests/test_agent_work_artifacts.py:55` | Defines required frontmatter keys for every skill. |
+| `required skill sections` | schema | public | `tests/test_agent_work_artifacts.py:67` | Defines required body sections for every skill. |
 
 ## Data Flow
 
