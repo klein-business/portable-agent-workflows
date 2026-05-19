@@ -5,9 +5,11 @@ Portable Agent Work Model is a harness-agnostic workflow layer for coding agents
 ## What Is Included
 
 - `.agent-work/glossary.md` defines the `agent-work-v1` domain model.
-- `.agent-work/adapters/` maps neutral roles and capabilities to Codex and OpenCode.
-- `.agent-work/skills/` contains the ten V1 portable skills.
+- `.agent-work/adapters/` maps neutral roles and capabilities to Codex, OpenCode, Claude Code, and Cursor.
+- `.agent-work/skills/` contains the eleven V1 portable skills.
 - `.agent-work/plans/portable-agent-work-example/` demonstrates the full artifact lifecycle.
+- `AGENTS.md`, `CLAUDE.md`, `.claude/commands/`, and `.cursor/rules/` are generated native harness entrypoints.
+- `tools/generate_harness_integrations.py` regenerates native harness files from `.agent-work/`.
 - `tests/test_agent_work_artifacts.py` validates the model structure and key consistency rules.
 - `docs/` documents architecture, modules, and features for humans and agents.
 
@@ -31,6 +33,7 @@ uv sync --dev
 Run validation:
 
 ```bash
+uv run python tools/generate_harness_integrations.py --check
 uv run pytest tests/ -v
 uv run ruff check tests/
 uv run ruff format --check tests/
@@ -57,6 +60,7 @@ ruff format --check tests/
 ## V1 Skills
 
 - `define-domain-model`
+- `shape-idea`
 - `shape-spec`
 - `create-phased-plan`
 - `verify-implementation-plan`

@@ -11,7 +11,7 @@ version: 1.0
 
 ## Overview
 
-The skills module contains the ten V1 portable work instructions. Each skill is a Markdown artifact with frontmatter, role ownership, gate declarations, expected outputs, adapter notes, and failure modes.
+The skills module contains the V1 portable work instructions. Each skill is a Markdown artifact with frontmatter, role ownership, gate declarations, expected outputs, adapter notes, and failure modes.
 
 ### Responsibility
 
@@ -37,6 +37,7 @@ This module is responsible for reusable workflow behavior. Skills must describe 
 | `.agent-work/skills/execute-work-package/SKILL.md` | file | Runs a bounded implementation unit through blueprint, approval, execution, and digest. |
 | `.agent-work/skills/review-artifact/SKILL.md` | file | Reviews specs, plans, implementation plans, and handovers independently. |
 | `.agent-work/skills/review-implementation/SKILL.md` | file | Reviews completed changes against approved artifacts and verification evidence. |
+| `.agent-work/skills/shape-idea/SKILL.md` | file | Shapes rough ideas into approved design directions before specs or implementation planning. |
 | `.agent-work/skills/shape-spec/SKILL.md` | file | Turns rough requests into approved spec artifacts. |
 | `.agent-work/skills/update-work-state/SKILL.md` | file | Keeps plan, phase, todo, changelog, and next-step state aligned. |
 | `.agent-work/skills/verify-implementation-plan/SKILL.md` | file | Produces codebase-grounded implementation plans for approved phases. |
@@ -47,6 +48,7 @@ This module is responsible for reusable workflow behavior. Skills must describe 
 | Symbol | Kind | Visibility | Location | Purpose |
 |--------|------|------------|----------|---------|
 | `define-domain-model` | skill | public | `.agent-work/skills/define-domain-model/SKILL.md:2` | Updates domain vocabulary before dependent artifacts or skills change. |
+| `shape-idea` | skill | public | `.agent-work/skills/shape-idea/SKILL.md:2` | Shapes rough ideas into approved design directions before specs or implementation planning. |
 | `shape-spec` | skill | public | `.agent-work/skills/shape-spec/SKILL.md:2` | Converts unclear requests into approved specs. |
 | `create-phased-plan` | skill | public | `.agent-work/skills/create-phased-plan/SKILL.md:2` | Converts approved specs into executable phase structures. |
 | `verify-implementation-plan` | skill | public | `.agent-work/skills/verify-implementation-plan/SKILL.md:2` | Grounds a phase implementation plan in repository reality. |
@@ -61,7 +63,7 @@ This module is responsible for reusable workflow behavior. Skills must describe 
 
 ## Data Flow
 
-Work usually starts with `shape-spec` or `define-domain-model`, moves into `create-phased-plan` and `verify-implementation-plan`, then proceeds through `execute-work-package`, review skills, state updates, and `create-handover` when context must persist. `write-portable-skill` is used when the skill set itself changes.
+Work usually starts with `shape-idea`, `shape-spec`, or `define-domain-model`, moves into `create-phased-plan` and `verify-implementation-plan`, then proceeds through `execute-work-package`, review skills, state updates, and `create-handover` when context must persist. `write-portable-skill` is used when the skill set itself changes.
 
 ## Configuration
 

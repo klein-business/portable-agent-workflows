@@ -11,7 +11,7 @@ version: 1.0
 
 ## Overview
 
-The adapters module maps `agent-work-v1` roles and capabilities to specific harness execution patterns. It lets portable skills stay neutral while still giving Codex and OpenCode enough operational guidance.
+The adapters module maps `agent-work-v1` roles and capabilities to specific harness execution patterns. It lets portable skills stay neutral while still giving Codex, OpenCode, Claude Code, and Cursor enough operational guidance.
 
 ### Responsibility
 
@@ -32,6 +32,8 @@ This module is responsible for harness-specific role mapping, capability mapping
 | `.agent-work/adapters/` | dir | Contains harness-specific mappings. |
 | `.agent-work/adapters/codex.md` | file | Maps neutral roles and capabilities to Codex execution patterns. |
 | `.agent-work/adapters/opencode.md` | file | Maps neutral roles and capabilities to OpenCode execution patterns. |
+| `.agent-work/adapters/claude.md` | file | Maps neutral roles and capabilities to Claude Code execution patterns. |
+| `.agent-work/adapters/cursor.md` | file | Maps neutral roles and capabilities to Cursor execution patterns. |
 
 ## Key Symbols
 
@@ -45,6 +47,12 @@ This module is responsible for harness-specific role mapping, capability mapping
 | `OpenCode Role Mapping` | section | public | `.agent-work/adapters/opencode.md:14` | Maps neutral roles into OpenCode execution responsibilities. |
 | `OpenCode Capability Mapping` | section | public | `.agent-work/adapters/opencode.md:23` | Maps filesystem, shell, delegation, web, git, and artifact-writing capabilities. |
 | `OpenCode Boundaries` | section | public | `.agent-work/adapters/opencode.md:32` | Keeps adapter details out of portable skills and keeps Git under Orchestrator ownership. |
+| `Claude Adapter` | adapter | public | `.agent-work/adapters/claude.md:10` | Defines Claude Code-specific execution mapping for `agent-work-v1`. |
+| `Claude Role Mapping` | section | public | `.agent-work/adapters/claude.md:14` | Maps neutral roles into Claude Code execution responsibilities. |
+| `Claude Capability Mapping` | section | public | `.agent-work/adapters/claude.md:23` | Maps filesystem, shell, commands, memory, subagents, and git capabilities. |
+| `Cursor Adapter` | adapter | public | `.agent-work/adapters/cursor.md:10` | Defines Cursor-specific execution mapping for `agent-work-v1`. |
+| `Cursor Role Mapping` | section | public | `.agent-work/adapters/cursor.md:14` | Maps neutral roles into Cursor execution responsibilities. |
+| `Cursor Capability Mapping` | section | public | `.agent-work/adapters/cursor.md:23` | Maps filesystem, shell, rules, context, inline-edit, and git capabilities. |
 
 ## Data Flow
 
@@ -57,4 +65,4 @@ No environment variables or feature flags are used. Harness selection is operati
 ## Inventory Notes
 
 - **Coverage**: full
-- **Notes**: Inventory covers both existing adapter files and the sections that tests require: role mapping, capability mapping, and boundaries.
+- **Notes**: Inventory covers existing adapter files and the sections that tests require: role mapping, capability mapping, and boundaries.
