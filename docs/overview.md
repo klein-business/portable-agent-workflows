@@ -51,7 +51,7 @@ tests/test_agent_work_artifacts.py structural validation
 | Adapters | Maps neutral roles and capabilities to Codex, OpenCode, Claude Code, and Cursor execution patterns. | [Detail](modules/adapters.md) |
 | Skills | Contains the eleven V1 portable skills and their required metadata, gates, workflow sections, and boundaries. | [Detail](modules/skills.md) |
 | Lifecycle Example | Demonstrates the full artifact lifecycle from spec through handover. | [Detail](modules/lifecycle-example.md) |
-| Validation Tests | Verifies glossary, adapter, skill, and example-artifact consistency. | [Detail](modules/validation-tests.md) |
+| Validation Tests | Verifies glossary, adapter, skill, generated-file, and example-artifact consistency. | [Detail](modules/validation-tests.md) |
 
 ## Key Features
 
