@@ -45,12 +45,12 @@ REQUIRED_SKILLS = {
     "write-portable-skill",
 }
 
-REQUIRED_ADAPTERS = {
+REQUIRED_ADAPTERS = (
     "codex",
     "opencode",
     "claude",
     "cursor",
-}
+)
 
 REQUIRED_SKILL_KEYS = {
     "name",
