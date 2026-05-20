@@ -1,12 +1,9 @@
 name: CodeQL
 
+# GitHub CodeQL default setup is enabled for this repository. Keep this advanced
+# workflow manual-only unless default setup is disabled in repository settings.
 on:
-  pull_request:
-  push:
-    branches:
-      - main
-  schedule:
-    - cron: "24 4 * * 1"
+  workflow_dispatch:
 
 permissions:
   actions: read

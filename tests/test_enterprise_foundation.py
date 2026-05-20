@@ -18,6 +18,7 @@ REQUIRED_ENTERPRISE_FILES = {
     "SECURITY.md",
     "CONTRIBUTING.md",
     "CHANGELOG.md",
+    "LICENSE",
     "docs/governance/release-policy.md",
     "docs/governance/compatibility-policy.md",
     "docs/governance/deprecation-policy.md",
@@ -39,6 +40,7 @@ REQUIRED_README_LINKS = {
     "SECURITY.md",
     "CONTRIBUTING.md",
     "CHANGELOG.md",
+    "LICENSE",
     "docs/governance/release-policy.md",
     "docs/governance/compatibility-policy.md",
     "docs/governance/deprecation-policy.md",
@@ -151,6 +153,14 @@ def test_governance_docs_define_enterprise_rules() -> None:
 
     for term in ("Require a pull request before merging", "required status checks", "CODEOWNERS"):
         assert term in github_settings
+
+
+def test_license_is_mit() -> None:
+    license_text = _read("LICENSE")
+
+    assert license_text.startswith("MIT License")
+    assert "Copyright (c) 2026 Martin Klein" in license_text
+    assert "Permission is hereby granted, free of charge" in license_text
 
 
 def test_markdown_files_do_not_reference_old_repository_name() -> None:

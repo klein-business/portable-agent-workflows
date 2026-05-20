@@ -3,6 +3,7 @@ name = "portable-agent-workflows"
 version = "0.1.0"
 description = "Portable, harness-agnostic agent workflows with shared skills, durable artifacts, review gates, and native integrations."
 readme = "README.md"
+license = { file = "LICENSE" }
 requires-python = ">=3.11"
 dependencies = []
 

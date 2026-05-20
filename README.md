@@ -7,16 +7,17 @@
   <img alt="PR first" src="https://img.shields.io/badge/governance-PR--first-7c3aed?style=for-the-badge">
   <img alt="Compatibility governed" src="https://img.shields.io/badge/compatibility-governed-4338ca?style=for-the-badge">
   <img alt="Security policy" src="https://img.shields.io/badge/security-policy-b91c1c?style=for-the-badge">
+  <img alt="License MIT" src="https://img.shields.io/badge/license-MIT-22c55e?style=for-the-badge">
 </p>
 
 <p align="center">
   <img alt="CI configured" src="https://img.shields.io/badge/CI-configured-16a34a?style=for-the-badge">
-  <img alt="CodeQL configured" src="https://img.shields.io/badge/CodeQL-configured-0f172a?style=for-the-badge">
+  <img alt="CodeQL default setup" src="https://img.shields.io/badge/CodeQL-default%20setup-0f172a?style=for-the-badge">
   <img alt="Dependabot configured" src="https://img.shields.io/badge/Dependabot-configured-025e8c?style=for-the-badge">
   <img alt="Python 3.11+" src="https://img.shields.io/badge/Python-3.11%2B-3776ab?style=for-the-badge&logo=python&logoColor=white">
   <img alt="uv" src="https://img.shields.io/badge/uv-managed-de5fe9?style=for-the-badge">
   <img alt="Ruff" src="https://img.shields.io/badge/Ruff-enabled-d7ff64?style=for-the-badge">
-  <img alt="pytest" src="https://img.shields.io/badge/pytest-14%20tests-0a9edc?style=for-the-badge">
+  <img alt="pytest" src="https://img.shields.io/badge/pytest-15%20tests-0a9edc?style=for-the-badge">
 </p>
 
 <p align="center">
@@ -50,6 +51,7 @@ This model combines the strongest ideas from [obra/superpowers](https://github.c
 
 - PR-first governance is documented in [CONTRIBUTING.md][contributing].
 - Security reporting is documented in [SECURITY.md][security].
+- License terms are published in [LICENSE][license].
 - Releases follow the [release policy][release-policy].
 - Release history is tracked in [CHANGELOG.md][changelog].
 - Compatibility is governed by the [compatibility policy][compatibility-policy].
@@ -134,6 +136,7 @@ See the [compatibility matrix][compatibility-matrix] for current support status.
 [harness-adapters]: docs/features/harness-adapters.md
 [harness-generator]: docs/modules/harness-generator.md
 [lifecycle-example]: docs/modules/lifecycle-example.md
+[license]: LICENSE
 [overview]: docs/overview.md
 [portable-skill-lifecycle]: docs/features/portable-skill-lifecycle.md
 [release-policy]: docs/governance/release-policy.md

@@ -16,7 +16,7 @@ The repository is documentation-and-artifact first. The canonical model lives un
 
 ## Enterprise Foundation
 
-The repository includes versioned governance and administrative guidance for enterprise operation. PR-first contribution rules live in `CONTRIBUTING.md`, security reporting lives in `SECURITY.md`, release and compatibility rules live under `docs/governance/`, and recommended GitHub settings live in `docs/admin/github-settings.md`.
+The repository includes versioned governance and administrative guidance for enterprise operation. PR-first contribution rules live in `CONTRIBUTING.md`, security reporting lives in `SECURITY.md`, MIT license terms live in `LICENSE`, release and compatibility rules live under `docs/governance/`, and recommended GitHub settings live in `docs/admin/github-settings.md`.
 
 ## Source Of Truth
 

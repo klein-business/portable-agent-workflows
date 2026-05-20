@@ -11,7 +11,7 @@ version: 1.1
 
 ## Summary
 
-Artifact Validation provides executable checks that keep the domain model, adapters, skills, lifecycle example, and generated harness files structurally aligned as the repository evolves.
+Artifact Validation provides executable checks that keep the domain model, adapters, skills, lifecycle example, enterprise foundation, license metadata, and generated harness files structurally aligned as the repository evolves.
 
 ## How It Works
 
@@ -32,7 +32,8 @@ The validation suite reads Markdown artifacts from `.agent-work/`, extracts fron
 3. Helper functions read files and parse frontmatter.
 4. Test functions compare actual artifacts against expected structure.
 5. `tests/test_harness_integrations.py` verifies generated files and generator currentness.
-6. Ruff checks keep the Python validation and generator code consistent.
+6. `tests/test_enterprise_foundation.py` verifies governance, admin, security, README, and license entrypoints.
+7. Ruff checks keep the Python validation and generator code consistent.
 
 ## Implementation
 

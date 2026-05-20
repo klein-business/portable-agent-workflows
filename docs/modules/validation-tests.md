@@ -11,7 +11,7 @@ version: 1.1
 
 ## Overview
 
-The validation-tests module verifies that the Markdown artifacts remain structurally coherent. It checks required glossary terms, adapter sections, skill metadata, gate definitions, generated harness currentness, and example lifecycle frontmatter.
+The validation-tests module verifies that the Markdown artifacts remain structurally coherent. It checks required glossary terms, adapter sections, skill metadata, gate definitions, generated harness currentness, example lifecycle frontmatter, enterprise foundation files, and license metadata.
 
 ### Responsibility
 
@@ -67,19 +67,20 @@ This module is responsible for structural validation only. It does not execute a
 | `MARKER` | const | internal | `tests/test_harness_integrations.py:16` | Defines the generated-file marker required in every native harness file. |
 | `test_generated_harness_files_exist_with_marker_and_agent_work_references` | function | internal | `tests/test_harness_integrations.py:23` | Verifies generated files exist, are marked, reference `.agent-work/`, and avoid redefining the domain model. |
 | `test_generated_harness_files_are_current` | function | internal | `tests/test_harness_integrations.py:33` | Runs generator `--check` to prevent stale generated files. |
-| `REQUIRED_ENTERPRISE_FILES` | const | internal | `tests/test_enterprise_foundation.py:10` | Lists governance, security, admin, CI, and reference files required for the enterprise foundation. |
-| `SUPPORTED_HARNESSES` | const | internal | `tests/test_enterprise_foundation.py:31` | Maps adapter file names to display names expected in the compatibility matrix. |
-| `REQUIRED_README_LINKS` | const | internal | `tests/test_enterprise_foundation.py:38` | Lists enterprise entrypoints that README.md must reference. |
-| `OLD_REPOSITORY_NAMES` | const | internal | `tests/test_enterprise_foundation.py:49` | Lists legacy repository names that Markdown files must not contain. |
-| `_read` | function | internal | `tests/test_enterprise_foundation.py:56` | Reads a repository-relative file and asserts that it exists. |
-| `_frontmatter` | function | internal | `tests/test_enterprise_foundation.py:62` | Extracts required Markdown frontmatter from `.agent-work` artifacts. |
-| `_all_markdown_files` | function | internal | `tests/test_enterprise_foundation.py:70` | Uses tracked Markdown files as the scan set for legacy-name validation. |
-| `test_required_enterprise_files_exist` | function | internal | `tests/test_enterprise_foundation.py:81` | Verifies all required enterprise foundation files exist. |
-| `test_readme_links_to_enterprise_entrypoints` | function | internal | `tests/test_enterprise_foundation.py:86` | Verifies README.md links to enterprise governance, security, admin, and reference entrypoints. |
-| `test_compatibility_matrix_covers_all_adapters` | function | internal | `tests/test_enterprise_foundation.py:101` | Verifies the compatibility matrix covers each supported adapter and required policy sections. |
-| `test_agent_work_artifacts_have_required_frontmatter` | function | internal | `tests/test_enterprise_foundation.py:117` | Verifies `.agent-work` Markdown artifacts keep required frontmatter and `agent-work-v1`. |
-| `test_governance_docs_define_enterprise_rules` | function | internal | `tests/test_enterprise_foundation.py:137` | Verifies governance and admin documents contain required enterprise policy terms. |
-| `test_markdown_files_do_not_reference_old_repository_name` | function | internal | `tests/test_enterprise_foundation.py:156` | Verifies tracked Markdown files do not reference legacy repository names. |
+| `REQUIRED_ENTERPRISE_FILES` | const | internal | `tests/test_enterprise_foundation.py:10` | Lists governance, security, admin, CI, license, and reference files required for the enterprise foundation. |
+| `SUPPORTED_HARNESSES` | const | internal | `tests/test_enterprise_foundation.py:32` | Maps adapter file names to display names expected in the compatibility matrix. |
+| `REQUIRED_README_LINKS` | const | internal | `tests/test_enterprise_foundation.py:39` | Lists enterprise and license entrypoints that README.md must reference. |
+| `OLD_REPOSITORY_NAMES` | const | internal | `tests/test_enterprise_foundation.py:51` | Lists legacy repository names that Markdown files must not contain. |
+| `_read` | function | internal | `tests/test_enterprise_foundation.py:58` | Reads a repository-relative file and asserts that it exists. |
+| `_frontmatter` | function | internal | `tests/test_enterprise_foundation.py:64` | Extracts required Markdown frontmatter from `.agent-work` artifacts. |
+| `_all_markdown_files` | function | internal | `tests/test_enterprise_foundation.py:72` | Uses tracked Markdown files as the scan set for legacy-name validation. |
+| `test_required_enterprise_files_exist` | function | internal | `tests/test_enterprise_foundation.py:83` | Verifies all required enterprise foundation files exist. |
+| `test_readme_links_to_enterprise_entrypoints` | function | internal | `tests/test_enterprise_foundation.py:88` | Verifies README.md links to enterprise governance, security, admin, license, and reference entrypoints. |
+| `test_compatibility_matrix_covers_all_adapters` | function | internal | `tests/test_enterprise_foundation.py:103` | Verifies the compatibility matrix covers each supported adapter and required policy sections. |
+| `test_agent_work_artifacts_have_required_frontmatter` | function | internal | `tests/test_enterprise_foundation.py:119` | Verifies `.agent-work` Markdown artifacts keep required frontmatter and `agent-work-v1`. |
+| `test_governance_docs_define_enterprise_rules` | function | internal | `tests/test_enterprise_foundation.py:139` | Verifies governance and admin documents contain required enterprise policy terms. |
+| `test_license_is_mit` | function | internal | `tests/test_enterprise_foundation.py:158` | Verifies the repository license is MIT and uses the expected copyright owner. |
+| `test_markdown_files_do_not_reference_old_repository_name` | function | internal | `tests/test_enterprise_foundation.py:166` | Verifies tracked Markdown files do not reference legacy repository names. |
 | `markdown_files` | function | public | `tools/check_markdown_links.py:13` | Returns Markdown files under a root while skipping ignored directories. |
 | `markdown_link_targets` | function | public | `tools/check_markdown_links.py:21` | Extracts raw inline Markdown link targets from text. |
 | `parse_markdown_link_target` | function | public | `tools/check_markdown_links.py:42` | Parses a single Markdown link target, including nested parentheses and angle-bracket targets. |
@@ -104,10 +105,11 @@ Enterprise validation is implemented in `tests/test_enterprise_foundation.py`.
 It checks:
 
 - required enterprise files exist
-- README links to governance, security, contribution, admin, and reference entrypoints
+- README links to governance, security, contribution, license, admin, and reference entrypoints
 - compatibility matrix covers all supported adapters
 - `.agent-work` artifacts retain required frontmatter and `agent-work-v1`
 - governance documents define release, compatibility, deprecation, and GitHub settings rules
+- the root license is MIT
 - Markdown files do not reference the old repository name
 
 `tools/check_markdown_links.py` provides the repository-owned local Markdown link check used by CI.

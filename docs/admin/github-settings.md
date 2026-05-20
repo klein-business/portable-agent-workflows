@@ -20,12 +20,18 @@ Required status checks:
 
 - `validate`
 
-Optional after GitHub Advanced Security is enabled:
+CodeQL:
 
-- `analyze (python)`
-- `analyze (actions)`
+- If GitHub CodeQL default setup is enabled, require the CodeQL checks shown by
+  GitHub and keep `.github/workflows/codeql.yml` manual-only.
+- If default setup is disabled and the advanced workflow is enabled for push and
+  pull request events, require:
+  - `analyze (python)`
+  - `analyze (actions)`
 
-Select the CodeQL matrix checks shown by GitHub after the workflow runs.
+Do not run CodeQL default setup and the advanced workflow on the same events;
+GitHub rejects advanced-configuration SARIF submissions while default setup is
+active.
 
 ## Ruleset Recommendation
 
