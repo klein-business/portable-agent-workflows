@@ -3,8 +3,8 @@
 ## Reporting A Vulnerability
 
 Do not open a public issue for vulnerabilities. Report security concerns through a
-private GitHub security advisory for this repository or contact the current repository
-maintainer directly if advisories are unavailable.
+private GitHub security advisory for this repository. If advisories are unavailable,
+contact @flitzrrr at https://github.com/flitzrrr and request a private reporting channel.
 
 Include:
 
