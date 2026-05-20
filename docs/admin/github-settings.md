@@ -22,7 +22,10 @@ Required status checks:
 
 Optional after GitHub Advanced Security is enabled:
 
-- `analyze`
+- `analyze (python)`
+- `analyze (actions)`
+
+Select the CodeQL matrix checks shown by GitHub after the workflow runs.
 
 ## Ruleset Recommendation
 
