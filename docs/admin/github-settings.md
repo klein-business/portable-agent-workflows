@@ -62,6 +62,25 @@ Enable when available for the organization plan:
 - Secret scanning
 - Private vulnerability reporting
 
+## Community Profile Settings
+
+Keep the GitHub Community Profile complete for the public repository:
+
+- README: present at `README.md`
+- License: MIT, present at `LICENSE`
+- Contributing guide: present at `CONTRIBUTING.md`
+- Code of Conduct: Contributor Covenant, present at `CODE_OF_CONDUCT.md`
+- Issue templates: present under `.github/ISSUE_TEMPLATE/` plus the root fallback
+  `.github/ISSUE_TEMPLATE.md`
+- Pull request template: present at `.github/pull_request_template.md`
+- Reported content: enabled under `Settings -> Moderation options -> Reported
+  content`
+
+Use `Prior contributors and collaborators` for reported content during the first
+public phase. It satisfies GitHub's organization-owned repository community
+profile check while keeping moderation intake limited to participants with a
+relationship to the repository.
+
 ## Public Launch Settings
 
 Use these repository feature settings for the first public launch:
@@ -72,6 +91,7 @@ Use these repository feature settings for the first public launch:
 - Projects: disabled
 - Discussions: disabled
 - Forking: enabled
+- Reported content: enabled for prior contributors and collaborators
 
 Keep Discussions disabled until there is a clear moderation and response pattern.
 Use Issues and Pull Requests as the initial public collaboration paths.

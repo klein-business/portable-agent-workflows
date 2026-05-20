@@ -64,6 +64,7 @@ PUBLIC_README_FORBIDDEN_PHRASES = {
 
 PUBLIC_README_REQUIRED_PHRASES = {
     "Public Project Status",
+    "Community Profile",
     "open-source",
     "MIT",
     "CODE_OF_CONDUCT.md",
@@ -168,6 +169,9 @@ def test_governance_docs_define_enterprise_rules() -> None:
         assert term in deprecation_policy
 
     for term in ("Require a pull request before merging", "required status checks", "CODEOWNERS"):
+        assert term in github_settings
+
+    for term in ("Community Profile Settings", "Reported content", "Prior contributors"):
         assert term in github_settings
 
 

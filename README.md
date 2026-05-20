@@ -7,6 +7,7 @@
   <img alt="PR first" src="https://img.shields.io/badge/governance-PR--first-7c3aed?style=for-the-badge">
   <img alt="Compatibility governed" src="https://img.shields.io/badge/compatibility-governed-4338ca?style=for-the-badge">
   <img alt="Security policy" src="https://img.shields.io/badge/security-policy-b91c1c?style=for-the-badge">
+  <img alt="Community profile 100%" src="https://img.shields.io/badge/community%20profile-100%25-16a34a?style=for-the-badge">
   <img alt="License MIT" src="https://img.shields.io/badge/license-MIT-22c55e?style=for-the-badge">
 </p>
 
@@ -52,6 +53,9 @@ This model combines the strongest ideas from [obra/superpowers](https://github.c
 Portable Agent Workflows is a public, MIT-licensed, open-source reference model.
 It is ready for evaluation, issues, and focused pull requests that improve the
 `agent-work-v1` model, documentation, validation, or generated harness entrypoints.
+The GitHub Community Profile is complete: README, license, contributing guide,
+Code of Conduct, issue template, pull request template, and contributor content
+reporting are in place.
 
 The main reader path is this README, then `docs/overview.md`, then the `.agent-work/`
 source artifacts. `docs/superpowers/` records design and planning history; it is

@@ -1,7 +1,7 @@
 ---
 type: documentation
 entity: project-overview
-version: 1.1
+version: 1.2
 ---
 
 # Portable Agent Workflows
@@ -16,7 +16,7 @@ The repository is documentation-and-artifact first. The canonical model lives un
 
 ## Enterprise Foundation
 
-The repository includes versioned governance and administrative guidance for enterprise operation. PR-first contribution rules live in `CONTRIBUTING.md`, security reporting lives in `SECURITY.md`, MIT license terms live in `LICENSE`, release and compatibility rules live under `docs/governance/`, and recommended GitHub settings live in `docs/admin/github-settings.md`.
+The repository includes versioned governance and administrative guidance for enterprise operation. PR-first contribution rules live in `CONTRIBUTING.md`, security reporting lives in `SECURITY.md`, MIT license terms live in `LICENSE`, release and compatibility rules live under `docs/governance/`, and recommended GitHub settings live in `docs/admin/github-settings.md`. Public launch standards include a complete GitHub Community Profile with reported content enabled for prior contributors and collaborators.
 
 ## Source Of Truth
 
