@@ -1,14 +1,14 @@
 ---
 type: documentation
 entity: project-overview
-version: 1.0
+version: 1.1
 ---
 
-# Portable Agent Work Model
+# Portable Agent Workflows
 
 ## Purpose
 
-Portable Agent Work Model defines a harness-agnostic workflow layer for coding agents. It provides a shared domain model, portable skill format, adapter mappings, persistent lifecycle artifacts, and structural tests so Codex, OpenCode, Claude Code, Cursor, and similar harnesses can run the same work model without sharing concrete tool names or hidden chat state.
+Portable Agent Workflows defines a harness-agnostic workflow layer for coding agents. It provides a shared domain model, portable skill format, adapter mappings, persistent lifecycle artifacts, and structural tests so Codex, OpenCode, Claude Code, Cursor, and similar harnesses can run the same workflow model without sharing concrete tool names or hidden chat state.
 
 ## Architecture
 
@@ -51,6 +51,7 @@ tests/test_agent_work_artifacts.py and tests/test_harness_integrations.py valida
 |--------|-------------|---------------|
 | Domain Model | Defines `agent-work-v1` vocabulary, roles, artifact kinds, gates, and design rules. | [Detail](modules/domain-model.md) |
 | Adapters | Maps neutral roles and capabilities to Codex, OpenCode, Claude Code, and Cursor execution patterns. | [Detail](modules/adapters.md) |
+| Harness Generator | Renders native Codex, Claude Code, and Cursor entrypoints from `.agent-work/` source artifacts and templates. | [Detail](modules/harness-generator.md) |
 | Skills | Contains the eleven V1 portable skills and their required metadata, gates, workflow sections, and boundaries. | [Detail](modules/skills.md) |
 | Lifecycle Example | Demonstrates the full artifact lifecycle from spec through handover. | [Detail](modules/lifecycle-example.md) |
 | Validation Tests | Verifies glossary, adapter, skill, generated-file, and example-artifact consistency. | [Detail](modules/validation-tests.md) |
@@ -89,12 +90,13 @@ There is no runtime build step. This repository ships Markdown artifacts plus te
 Run the full validation suite:
 
 ```bash
+uv run python tools/generate_harness_integrations.py --check
 uv run pytest tests/ -v
-uv run ruff check tests/
-uv run ruff format --check tests/
+uv run ruff check tests/ tools/
+uv run ruff format --check tests/ tools/
 ```
 
-The test strategy is structural: it checks required terms, role mappings, skill shape, gate vocabulary, and example lifecycle frontmatter.
+The test strategy is structural: it checks required terms, role mappings, skill shape, gate vocabulary, generated harness-file currentness, and example lifecycle frontmatter.
 
 ## References
 
@@ -102,3 +104,6 @@ The test strategy is structural: it checks required terms, role mappings, skill 
 - [Domain model glossary](../.agent-work/glossary.md)
 - [Codex adapter](../.agent-work/adapters/codex.md)
 - [OpenCode adapter](../.agent-work/adapters/opencode.md)
+- [Claude adapter](../.agent-work/adapters/claude.md)
+- [Cursor adapter](../.agent-work/adapters/cursor.md)
+- [Generator script](../tools/generate_harness_integrations.py)

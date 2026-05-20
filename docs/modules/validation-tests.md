@@ -2,12 +2,12 @@
 type: documentation
 entity: module
 module: "validation-tests"
-version: 1.0
+version: 1.1
 ---
 
 # Module: validation-tests
 
-> Part of [Portable Agent Work Model](../overview.md)
+> Part of [Portable Agent Workflows](../overview.md)
 
 ## Overview
 
@@ -24,6 +24,7 @@ This module is responsible for structural validation only. It does not execute a
 | Domain Model | module | Source for terms, roles, and gate vocabulary tested by the suite. |
 | Adapters | module | Source for required role and capability mapping sections. |
 | Skills | module | Source for skill metadata and required body sections. |
+| Harness Generator | module | Source for generated native harness files and currentness checks. |
 | Lifecycle Example | module | Source for example artifact existence, kinds, and statuses. |
 | `pytest` | library | Runs the validation tests. |
 | `ruff` | library | Checks and formats the Python test file. |
@@ -67,7 +68,7 @@ This module is responsible for structural validation only. It does not execute a
 
 ## Data Flow
 
-Tests load files from `.agent-work/`, parse frontmatter with simple regular expressions, and assert consistency between the glossary, adapter files, skill definitions, lifecycle example artifacts, and generated native harness files.
+Tests load files from `.agent-work/`, parse frontmatter with simple regular expressions, assert consistency between the glossary, adapter files, skill definitions, and lifecycle example artifacts, then run the harness generator in `--check` mode to prevent generated-file drift.
 
 ## Configuration
 

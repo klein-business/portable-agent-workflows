@@ -2,12 +2,12 @@
 type: documentation
 entity: feature
 feature: "generated-harness-integration"
-version: 1.0
+version: 1.1
 ---
 
 # Feature: generated-harness-integration
 
-> Part of [Portable Agent Work Model](../overview.md)
+> Part of [Portable Agent Workflows](../overview.md)
 
 ## Summary
 
@@ -35,6 +35,7 @@ The generator reads required source artifacts, renders checked-in templates, and
 
 | Module | Symbols | Role |
 |--------|---------|------|
+| [harness-generator](../modules/harness-generator.md) | `GENERATED_FILES`, `REQUIRED_SOURCES`, `render_all`, `write_all`, `check_all`, `main` | Implements rendering, writing, checking, and CLI behavior. |
 | [adapters](../modules/adapters.md) | `Codex Adapter`, `Claude Adapter`, `Cursor Adapter` | Defines harness-specific mappings consumed by generated files. |
 | [skills](../modules/skills.md) | `shape-idea`, `shape-spec`, `create-phased-plan` | Defines the workflows referenced by generated files. |
 | [validation-tests](../modules/validation-tests.md) | `test_generated_harness_files_are_current` | Prevents generated-file drift. |

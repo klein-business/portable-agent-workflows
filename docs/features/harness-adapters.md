@@ -7,7 +7,7 @@ version: 1.0
 
 # Feature: harness-adapters
 
-> Part of [Portable Agent Work Model](../overview.md)
+> Part of [Portable Agent Workflows](../overview.md)
 
 ## Summary
 

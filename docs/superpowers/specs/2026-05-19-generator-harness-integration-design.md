@@ -9,7 +9,7 @@ updated: 2026-05-19
 
 ## Context
 
-Portable Agent Work Model currently keeps its source vocabulary, adapters, skills, and lifecycle example under `.agent-work/`. It includes Codex and OpenCode adapter documents, but it does not yet expose native integration files for Codex, Claude Code, or Cursor. It also does not yet include a portable equivalent of the local `brainstorming` skill.
+Portable Agent Workflows currently keeps its source vocabulary, adapters, skills, and lifecycle example under `.agent-work/`. It includes Codex and OpenCode adapter documents, but it does not yet expose native integration files for Codex, Claude Code, or Cursor. It also does not yet include a portable equivalent of the local `brainstorming` skill.
 
 Codex can consume root-level `AGENTS.md` instructions. Claude Code consumes `CLAUDE.md`, supports `@path` imports from memory files, and supports project slash commands under `.claude/commands/`. Cursor supports project rules under `.cursor/rules/*.mdc` and can also consume root-level `AGENTS.md`.
 

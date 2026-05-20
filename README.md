@@ -1,6 +1,10 @@
-# Portable Agent Work Model
+# Portable Agent Workflows
 
-Portable Agent Work Model is a harness-agnostic workflow layer for coding agents. It defines a shared vocabulary, portable skills, adapter mappings, and persistent artifacts so Codex, OpenCode, and similar harnesses can follow the same work model without sharing tool names or hidden chat state.
+Portable Agent Workflows is a harness-agnostic workflow layer for coding agents. It defines a shared vocabulary, portable skills, adapter mappings, persistent artifacts, and generated native entrypoints so Codex, OpenCode, Claude Code, Cursor, and similar harnesses can follow the same workflow model without sharing tool names or hidden chat state.
+
+## Origins
+
+This model combines the strongest ideas from [obra/superpowers](https://github.com/obra/superpowers) and [DasDigitaleMomentum/opencode-processing-skills](https://github.com/DasDigitaleMomentum/opencode-processing-skills): explicit skill workflows, durable planning artifacts, review gates, handovers, and harness-specific adapters. It does not copy either system directly; it defines a clean `agent-work-v1` domain model that can be used across Codex, OpenCode, Claude Code, Cursor, and future harnesses.
 
 ## What Is Included
 
@@ -35,17 +39,18 @@ Run validation:
 ```bash
 uv run python tools/generate_harness_integrations.py --check
 uv run pytest tests/ -v
-uv run ruff check tests/
-uv run ruff format --check tests/
+uv run ruff check tests/ tools/
+uv run ruff format --check tests/ tools/
 ```
 
 If you prefer a plain Python environment:
 
 ```bash
 python -m pip install pytest ruff
+python tools/generate_harness_integrations.py --check
 python -m pytest tests/ -v
-ruff check tests/
-ruff format --check tests/
+ruff check tests/ tools/
+ruff format --check tests/ tools/
 ```
 
 ## Documentation
@@ -53,9 +58,11 @@ ruff format --check tests/
 - [Project overview](docs/overview.md)
 - [Domain model module](docs/modules/domain-model.md)
 - [Adapters module](docs/modules/adapters.md)
+- [Harness generator module](docs/modules/harness-generator.md)
 - [Skills module](docs/modules/skills.md)
 - [Lifecycle example module](docs/modules/lifecycle-example.md)
 - [Validation tests module](docs/modules/validation-tests.md)
+- [Generated harness integration feature](docs/features/generated-harness-integration.md)
 
 ## V1 Skills
 

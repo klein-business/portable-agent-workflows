@@ -1,7 +1,7 @@
 [project]
-name = "portable-agent-work-model"
+name = "portable-agent-workflows"
 version = "0.1.0"
-description = "Harness-agnostic agent work domain model, portable skills, adapters, and artifact lifecycle examples."
+description = "Portable, harness-agnostic agent workflows with shared skills, durable artifacts, review gates, and native integrations."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []

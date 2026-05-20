@@ -533,7 +533,7 @@ Create `tools/harness_templates/agents.md.tmpl`:
 ```markdown
 {marker}
 
-# Portable Agent Work Model Instructions
+# Portable Agent Workflows Instructions
 
 This file is generated from `.agent-work/` source artifacts. It does not redefine the domain model.
 
@@ -560,7 +560,7 @@ Create `tools/harness_templates/claude.md.tmpl`:
 ```markdown
 {marker}
 
-# Portable Agent Work Model For Claude Code
+# Portable Agent Workflows For Claude Code
 
 This project uses `.agent-work/` as the portable source of truth. This file does not redefine the domain model.
 
@@ -613,14 +613,14 @@ Create `tools/harness_templates/cursor-agent-work.mdc.tmpl`:
 
 ```markdown
 ---
-description: Use the portable agent work model for idea shaping, specs, plans, reviews, and generated harness files.
+description: Use the portable agent workflows for idea shaping, specs, plans, reviews, and generated harness files.
 globs:
 alwaysApply: true
 ---
 
 {marker}
 
-# Portable Agent Work Model
+# Portable Agent Workflows
 
 This rule points Cursor to `.agent-work/` source artifacts. It does not redefine the domain model.
 
@@ -774,7 +774,7 @@ version: 1.0
 
 # Feature: generated-harness-integration
 
-> Part of Portable Agent Work Model (`../overview.md`)
+> Part of Portable Agent Workflows (`../overview.md`)
 
 ## Summary
 

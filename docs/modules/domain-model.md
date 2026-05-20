@@ -2,12 +2,12 @@
 type: documentation
 entity: module
 module: "domain-model"
-version: 1.0
+version: 1.1
 ---
 
 # Module: domain-model
 
-> Part of [Portable Agent Work Model](../overview.md)
+> Part of [Portable Agent Workflows](../overview.md)
 
 ## Overview
 
@@ -58,7 +58,8 @@ This module is responsible for defining stable terms, logical roles, artifact ki
 | `Maintainer` | role | public | `.agent-work/glossary.md:75` | Updates work state, changelog, handovers, and integration status. |
 | `artifact kinds` | vocabulary | public | `.agent-work/glossary.md:77` | Lists allowed artifact categories such as `spec`, `plan`, `review`, and `handover`. |
 | `V1 gate vocabulary` | vocabulary | public | `.agent-work/glossary.md:97` | Lists the centralized gate names that portable skills may reference. |
-| `Design Rules` | rules | public | `.agent-work/glossary.md:114` | States the core separation between skills, artifacts, roles, capabilities, adapters, and chat history. |
+| `idea_direction_approved` | gate | public | `.agent-work/glossary.md:104` | Gates conversion from shaped idea to spec, plan, or implementation plan. |
+| `Design Rules` | rules | public | `.agent-work/glossary.md:115` | States the core separation between skills, artifacts, roles, capabilities, adapters, and chat history. |
 
 ## Data Flow
 

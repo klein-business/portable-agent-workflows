@@ -7,7 +7,7 @@ version: 1.0
 
 # Module: adapters
 
-> Part of [Portable Agent Work Model](../overview.md)
+> Part of [Portable Agent Workflows](../overview.md)
 
 ## Overview
 
