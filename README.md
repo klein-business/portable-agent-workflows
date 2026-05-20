@@ -6,6 +6,42 @@ Portable Agent Workflows is a harness-agnostic workflow layer for coding agents.
 
 This model combines the strongest ideas from [obra/superpowers](https://github.com/obra/superpowers) and [DasDigitaleMomentum/opencode-processing-skills](https://github.com/DasDigitaleMomentum/opencode-processing-skills): explicit skill workflows, durable planning artifacts, review gates, handovers, and harness-specific adapters. It does not copy either system directly; it defines a clean `agent-work-v1` domain model that can be used across Codex, OpenCode, Claude Code, Cursor, and future harnesses.
 
+## What This Repository Is
+
+- A portable workflow and artifact model for coding agents.
+- A set of harness-agnostic skills under `.agent-work/skills/`.
+- A generated integration layer for Codex, Claude Code, and Cursor.
+- A governance-backed reference repository for `agent-work-v1`.
+
+## What This Repository Is Not
+
+- It is not a runtime library.
+- It is not an installer.
+- It is not tied to one agent harness.
+- It does not mutate GitHub repository settings automatically.
+
+## Enterprise Readiness
+
+- PR-first governance is documented in [CONTRIBUTING.md][contributing].
+- Security reporting is documented in [SECURITY.md][security].
+- Releases follow the [release policy][release-policy].
+- Release history is tracked in [CHANGELOG.md][changelog].
+- Compatibility is governed by the [compatibility policy][compatibility-policy].
+- Deprecations follow the [deprecation policy][deprecation-policy].
+- Recommended repository settings are documented in [GitHub settings][github-settings].
+- Supported harnesses are tracked in the [compatibility matrix][compatibility-matrix].
+
+## Quality Gates
+
+```bash
+uv run python tools/generate_harness_integrations.py --check
+uv run pytest tests/ -v
+uv run ruff check tests/ tools/
+uv run ruff format --check tests/ tools/
+uv run python tools/check_markdown_links.py
+git diff --check
+```
+
 ## What Is Included
 
 - `.agent-work/glossary.md` defines the `agent-work-v1` domain model.
@@ -14,8 +50,9 @@ This model combines the strongest ideas from [obra/superpowers](https://github.c
 - `.agent-work/plans/portable-agent-work-example/` demonstrates the full artifact lifecycle.
 - `AGENTS.md`, `CLAUDE.md`, `.claude/commands/`, and `.cursor/rules/` are generated native harness entrypoints.
 - `tools/generate_harness_integrations.py` regenerates native harness files from `.agent-work/`.
-- `tests/test_agent_work_artifacts.py` validates the model structure and key consistency rules.
-- `docs/` documents architecture, modules, and features for humans and agents.
+- `tools/check_markdown_links.py` validates local Markdown links.
+- `tests/` validates model structure, generated files, and enterprise foundation artifacts.
+- `docs/` documents architecture, governance, reference material, modules, and features.
 
 ## Core Ideas
 
@@ -41,28 +78,42 @@ uv run python tools/generate_harness_integrations.py --check
 uv run pytest tests/ -v
 uv run ruff check tests/ tools/
 uv run ruff format --check tests/ tools/
+uv run python tools/check_markdown_links.py
 ```
 
-If you prefer a plain Python environment:
+## Supported Harnesses
 
-```bash
-python -m pip install pytest ruff
-python tools/generate_harness_integrations.py --check
-python -m pytest tests/ -v
-ruff check tests/ tools/
-ruff format --check tests/ tools/
-```
+See the [compatibility matrix][compatibility-matrix] for current support status.
 
 ## Documentation
 
-- [Project overview](docs/overview.md)
-- [Domain model module](docs/modules/domain-model.md)
-- [Adapters module](docs/modules/adapters.md)
-- [Harness generator module](docs/modules/harness-generator.md)
-- [Skills module](docs/modules/skills.md)
-- [Lifecycle example module](docs/modules/lifecycle-example.md)
-- [Validation tests module](docs/modules/validation-tests.md)
-- [Generated harness integration feature](docs/features/generated-harness-integration.md)
+- Start here: [Project overview][overview]
+- Governance: [Release policy][release-policy], [Compatibility policy][compatibility-policy], [Deprecation policy][deprecation-policy], [ADRs][adrs]
+- Administration: [GitHub settings][github-settings]
+- Reference: [Compatibility matrix][compatibility-matrix]
+- Modules: [Domain model][domain-model], [Adapters][adapters], [Harness generator][harness-generator], [Skills][skills], [Lifecycle example][lifecycle-example], [Validation tests][validation-tests]
+- Features: [Generated harness integration][generated-harness-integration], [Portable skill lifecycle][portable-skill-lifecycle], [Artifact validation][artifact-validation], [Harness adapters][harness-adapters]
+
+[adapters]: docs/modules/adapters.md
+[adrs]: docs/governance/adr/README.md
+[artifact-validation]: docs/features/artifact-validation.md
+[compatibility-matrix]: docs/reference/compatibility-matrix.md
+[compatibility-policy]: docs/governance/compatibility-policy.md
+[changelog]: CHANGELOG.md
+[contributing]: CONTRIBUTING.md
+[deprecation-policy]: docs/governance/deprecation-policy.md
+[domain-model]: docs/modules/domain-model.md
+[generated-harness-integration]: docs/features/generated-harness-integration.md
+[github-settings]: docs/admin/github-settings.md
+[harness-adapters]: docs/features/harness-adapters.md
+[harness-generator]: docs/modules/harness-generator.md
+[lifecycle-example]: docs/modules/lifecycle-example.md
+[overview]: docs/overview.md
+[portable-skill-lifecycle]: docs/features/portable-skill-lifecycle.md
+[release-policy]: docs/governance/release-policy.md
+[security]: SECURITY.md
+[skills]: docs/modules/skills.md
+[validation-tests]: docs/modules/validation-tests.md
 
 ## V1 Skills
 

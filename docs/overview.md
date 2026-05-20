@@ -14,6 +14,14 @@ Portable Agent Workflows defines a harness-agnostic workflow layer for coding ag
 
 The repository is documentation-and-artifact first. The canonical model lives under `.agent-work/`; tests verify that the artifact graph remains coherent. Runtime-specific behavior is isolated in adapters, while portable skills describe role-based workflows in neutral terms.
 
+## Enterprise Foundation
+
+The repository includes versioned governance and administrative guidance for enterprise operation. PR-first contribution rules live in `CONTRIBUTING.md`, security reporting lives in `SECURITY.md`, release and compatibility rules live under `docs/governance/`, and recommended GitHub settings live in `docs/admin/github-settings.md`.
+
+## Source Of Truth
+
+`.agent-work/` remains the source of truth for the domain model, skills, adapters, and lifecycle example. Generated harness files and governance docs must point back to those artifacts rather than redefining them.
+
 ### System Diagram
 
 ```text
@@ -107,3 +115,8 @@ The test strategy is structural: it checks required terms, role mappings, skill 
 - [Claude adapter](../.agent-work/adapters/claude.md)
 - [Cursor adapter](../.agent-work/adapters/cursor.md)
 - [Generator script](../tools/generate_harness_integrations.py)
+- [Release policy](governance/release-policy.md)
+- [Compatibility policy](governance/compatibility-policy.md)
+- [Deprecation policy](governance/deprecation-policy.md)
+- [Compatibility matrix](reference/compatibility-matrix.md)
+- [GitHub settings](admin/github-settings.md)

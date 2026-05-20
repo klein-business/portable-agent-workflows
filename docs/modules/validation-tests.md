@@ -74,6 +74,21 @@ Tests load files from `.agent-work/`, parse frontmatter with simple regular expr
 
 `pyproject.toml` sets `testpaths = ["tests"]`, Python target `py311`, ruff line length `100`, and dev dependencies `pytest` and `ruff`.
 
+## Enterprise Foundation Validation
+
+Enterprise validation is implemented in `tests/test_enterprise_foundation.py`.
+
+It checks:
+
+- required enterprise files exist
+- README links to governance, security, contribution, admin, and reference entrypoints
+- compatibility matrix covers all supported adapters
+- `.agent-work` artifacts retain required frontmatter and `agent-work-v1`
+- governance documents define release, compatibility, deprecation, and GitHub settings rules
+- Markdown files do not reference the old repository name
+
+`tools/check_markdown_links.py` provides the repository-owned local Markdown link check used by CI.
+
 ## Inventory Notes
 
 - **Coverage**: full
