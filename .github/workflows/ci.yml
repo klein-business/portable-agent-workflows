@@ -18,6 +18,12 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6
 
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+
       - name: Install uv
         uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
         with:
@@ -28,6 +34,9 @@ jobs:
 
       - name: Check generated harness integrations
         run: uv run python tools/generate_harness_integrations.py --check
+
+      - name: Run Node checks
+        run: npm run check:node
 
       - name: Run tests
         run: uv run pytest tests/ -v
