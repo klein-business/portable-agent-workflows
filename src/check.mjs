@@ -11,11 +11,21 @@ const installableFileSet = new Set(installableFiles);
 
 function readManifest(targetRoot) {
   const manifestPath = path.join(targetRoot, installManifestPath);
-  if (!fs.existsSync(manifestPath)) {
-    return null;
+  let stat;
+  try {
+    stat = fs.lstatSync(manifestPath);
+  } catch (error) {
+    if (error?.code === "ENOENT") {
+      return { manifest: null, failure: null };
+    }
+    throw error;
   }
 
-  return JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+  if (stat.isSymbolicLink()) {
+    return { manifest: null, failure: `Refusing to read through symlink ${installManifestPath}` };
+  }
+
+  return { manifest: JSON.parse(fs.readFileSync(manifestPath, "utf8")), failure: null };
 }
 
 function readComparableFiles(root, relativePath) {
@@ -118,10 +128,14 @@ function readDirectoryFiles(root, relativePath, files) {
 
 export async function runCheck(options, io) {
   const targetRoot = path.resolve(options.target);
-  const manifest = readManifest(targetRoot);
+  const { manifest, failure: manifestFailure } = readManifest(targetRoot);
   const manifestSelection = validateManifestFiles(manifest);
   const files = options.harness ? filesForHarnesses(resolveHarnesses(options.harness)) : manifestSelection.files;
   const failures = [];
+
+  if (manifestFailure !== null) {
+    failures.push(manifestFailure);
+  }
 
   if (!options.harness) {
     failures.push(...manifestSelection.failures);

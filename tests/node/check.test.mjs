@@ -170,6 +170,40 @@ test("check refuses broken symlinks at installed paths", async () => {
   assert.equal(fs.lstatSync(path.join(target, "AGENTS.md")).isSymbolicLink(), true);
 });
 
+test("check refuses an install manifest symlink to an outside file", async () => {
+  const target = tempTarget();
+  const outside = tempTarget();
+  await runInit({ target, harness: "codex", yes: true, dryRun: false, force: false }, bufferIo().io);
+  const manifestPath = path.join(target, ".agent-work/install.json");
+  const outsideManifestPath = path.join(outside, "install.json");
+  fs.renameSync(manifestPath, outsideManifestPath);
+  fs.symlinkSync(outsideManifestPath, manifestPath);
+
+  const { io, output } = bufferIo();
+  const status = await runCheck({ target, harness: undefined }, io);
+
+  assert.equal(status, 1);
+  assert.match(output().stderr, /Refusing to read through symlink \.agent-work\/install\.json/);
+  assert.doesNotMatch(output().stdout, /Installed portable-agent-workflows files are current/);
+  assert.equal(fs.lstatSync(manifestPath).isSymbolicLink(), true);
+});
+
+test("check refuses a broken install manifest symlink", async () => {
+  const target = tempTarget();
+  await runInit({ target, harness: "codex", yes: true, dryRun: false, force: false }, bufferIo().io);
+  const manifestPath = path.join(target, ".agent-work/install.json");
+  fs.rmSync(manifestPath);
+  fs.symlinkSync(path.join(target, ".agent-work/missing-install.json"), manifestPath);
+
+  const { io, output } = bufferIo();
+  const status = await runCheck({ target, harness: undefined }, io);
+
+  assert.equal(status, 1);
+  assert.match(output().stderr, /Refusing to read through symlink \.agent-work\/install\.json/);
+  assert.doesNotMatch(output().stdout, /Installed portable-agent-workflows files are current/);
+  assert.equal(fs.lstatSync(manifestPath).isSymbolicLink(), true);
+});
+
 test("CLI dispatch runs check", async () => {
   const target = tempTarget();
   await runInit({ target, harness: "codex", yes: true, dryRun: false, force: false }, bufferIo().io);
