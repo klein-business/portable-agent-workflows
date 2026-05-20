@@ -55,3 +55,25 @@ Phase 1 intentionally does not publish a PyPI package, Homebrew formula, Docker
 image, VS Code or Cursor extension, MCP server, or global installer. Those
 channels are future candidates after the project-local installer contract is
 proven.
+
+## Manual Publishing Checklist
+
+Publishing is manual. The project does not automatically publish npm packages or
+GitHub releases from CI.
+
+1. Confirm `main` is green.
+2. Confirm `CHANGELOG.md` includes the release entry.
+3. Run `npm run check:node`.
+4. Run the Python validation gates from the README.
+5. Run `npm pack --json` and inspect package contents.
+6. Run the local tarball smoke test in a clean temporary repository:
+
+   ```bash
+   npm exec --yes --package ./portable-agent-workflows-0.1.0.tgz -- portable-agent-workflows init --harness codex,claude,cursor,opencode --yes
+   npm exec --yes --package ./portable-agent-workflows-0.1.0.tgz -- portable-agent-workflows check
+   ```
+
+7. Publish npm manually with `npm publish --access public`.
+8. Tag the release with `git tag v0.1.0`.
+9. Push the tag with `git push origin v0.1.0`.
+10. Publish GitHub release notes from `CHANGELOG.md`.

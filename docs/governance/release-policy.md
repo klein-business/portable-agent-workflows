@@ -18,6 +18,7 @@ A release requires:
 - all required CI checks passing
 - generated harness files verified current
 - Markdown links verified
+- npm package contents and local tarball smoke test verified for distribution releases
 - compatibility impact recorded in the pull request
 - `CHANGELOG.md` updated
 - migration notes for breaking changes
@@ -27,6 +28,7 @@ A release requires:
 
 1. Confirm `main` is green.
 2. Update `CHANGELOG.md`.
-3. Tag the release with the SemVer version.
-4. Publish GitHub release notes from the changelog entry.
-5. Record follow-up deprecations or migrations as issues.
+3. Run npm package checks and a local tarball smoke test for distribution releases.
+4. Tag the release with the SemVer version.
+5. Publish GitHub release notes from the changelog entry.
+6. Record follow-up deprecations or migrations as issues.
