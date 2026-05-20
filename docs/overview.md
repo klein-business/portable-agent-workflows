@@ -102,6 +102,7 @@ uv run python tools/generate_harness_integrations.py --check
 uv run pytest tests/ -v
 uv run ruff check tests/ tools/
 uv run ruff format --check tests/ tools/
+uv run python tools/check_markdown_links.py
 ```
 
 The test strategy is structural: it checks required terms, role mappings, skill shape, gate vocabulary, generated harness-file currentness, and example lifecycle frontmatter.

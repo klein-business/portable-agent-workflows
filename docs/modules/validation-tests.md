@@ -36,6 +36,8 @@ This module is responsible for structural validation only. It does not execute a
 | `tests/` | dir | Contains repository validation tests. |
 | `tests/test_agent_work_artifacts.py` | file | Structural validation suite for `.agent-work/` artifacts. |
 | `tests/test_harness_integrations.py` | file | Validation suite for generated native harness integration files. |
+| `tests/test_enterprise_foundation.py` | file | Validation suite for enterprise governance, security, admin, reference, and compatibility artifacts. |
+| `tools/check_markdown_links.py` | file | Repository-owned local Markdown link checker used by CI and quality gates. |
 | `pyproject.toml` | file | Declares Python version, dev dependencies, pytest test path, and ruff settings. |
 
 ## Key Symbols
@@ -65,10 +67,31 @@ This module is responsible for structural validation only. It does not execute a
 | `MARKER` | const | internal | `tests/test_harness_integrations.py:16` | Defines the generated-file marker required in every native harness file. |
 | `test_generated_harness_files_exist_with_marker_and_agent_work_references` | function | internal | `tests/test_harness_integrations.py:23` | Verifies generated files exist, are marked, reference `.agent-work/`, and avoid redefining the domain model. |
 | `test_generated_harness_files_are_current` | function | internal | `tests/test_harness_integrations.py:33` | Runs generator `--check` to prevent stale generated files. |
+| `REQUIRED_ENTERPRISE_FILES` | const | internal | `tests/test_enterprise_foundation.py:10` | Lists governance, security, admin, CI, and reference files required for the enterprise foundation. |
+| `SUPPORTED_HARNESSES` | const | internal | `tests/test_enterprise_foundation.py:31` | Maps adapter file names to display names expected in the compatibility matrix. |
+| `REQUIRED_README_LINKS` | const | internal | `tests/test_enterprise_foundation.py:38` | Lists enterprise entrypoints that README.md must reference. |
+| `OLD_REPOSITORY_NAMES` | const | internal | `tests/test_enterprise_foundation.py:49` | Lists legacy repository names that Markdown files must not contain. |
+| `_read` | function | internal | `tests/test_enterprise_foundation.py:56` | Reads a repository-relative file and asserts that it exists. |
+| `_frontmatter` | function | internal | `tests/test_enterprise_foundation.py:62` | Extracts required Markdown frontmatter from `.agent-work` artifacts. |
+| `_all_markdown_files` | function | internal | `tests/test_enterprise_foundation.py:70` | Uses tracked Markdown files as the scan set for legacy-name validation. |
+| `test_required_enterprise_files_exist` | function | internal | `tests/test_enterprise_foundation.py:81` | Verifies all required enterprise foundation files exist. |
+| `test_readme_links_to_enterprise_entrypoints` | function | internal | `tests/test_enterprise_foundation.py:86` | Verifies README.md links to enterprise governance, security, admin, and reference entrypoints. |
+| `test_compatibility_matrix_covers_all_adapters` | function | internal | `tests/test_enterprise_foundation.py:101` | Verifies the compatibility matrix covers each supported adapter and required policy sections. |
+| `test_agent_work_artifacts_have_required_frontmatter` | function | internal | `tests/test_enterprise_foundation.py:117` | Verifies `.agent-work` Markdown artifacts keep required frontmatter and `agent-work-v1`. |
+| `test_governance_docs_define_enterprise_rules` | function | internal | `tests/test_enterprise_foundation.py:137` | Verifies governance and admin documents contain required enterprise policy terms. |
+| `test_markdown_files_do_not_reference_old_repository_name` | function | internal | `tests/test_enterprise_foundation.py:156` | Verifies tracked Markdown files do not reference legacy repository names. |
+| `markdown_files` | function | public | `tools/check_markdown_links.py:13` | Returns Markdown files under a root while skipping ignored directories. |
+| `markdown_link_targets` | function | public | `tools/check_markdown_links.py:21` | Extracts raw inline Markdown link targets from text. |
+| `parse_markdown_link_target` | function | public | `tools/check_markdown_links.py:42` | Parses a single Markdown link target, including nested parentheses and angle-bracket targets. |
+| `local_link_target` | function | public | `tools/check_markdown_links.py:79` | Normalizes local link targets and filters anchors, empty targets, and external schemes. |
+| `strip_markdown_title` | function | public | `tools/check_markdown_links.py:99` | Removes optional Markdown link titles from raw targets. |
+| `resolve_local_target` | function | public | `tools/check_markdown_links.py:108` | Resolves a local Markdown target relative to the repository root or source file. |
+| `find_missing_links` | function | public | `tools/check_markdown_links.py:115` | Scans Markdown files and returns unresolved or out-of-root local links. |
+| `main` | function | public | `tools/check_markdown_links.py:133` | Implements the command-line local Markdown link check. |
 
 ## Data Flow
 
-Tests load files from `.agent-work/`, parse frontmatter with simple regular expressions, assert consistency between the glossary, adapter files, skill definitions, and lifecycle example artifacts, then run the harness generator in `--check` mode to prevent generated-file drift.
+Tests load files from `.agent-work/`, parse frontmatter with simple regular expressions, assert consistency between the glossary, adapter files, skill definitions, lifecycle example artifacts, generated harness files, and enterprise foundation documents, then run the harness generator and Markdown link checker to prevent generated-file and documentation-link drift.
 
 ## Configuration
 
@@ -92,4 +115,4 @@ It checks:
 ## Inventory Notes
 
 - **Coverage**: full
-- **Notes**: Inventory covers every test helper, constant, test function, and configuration file relevant to validation.
+- **Notes**: Inventory covers every test helper, constant, test function, link-check helper, and configuration file relevant to validation.
