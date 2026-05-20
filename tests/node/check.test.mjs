@@ -43,6 +43,12 @@ function runCli(args) {
   });
 }
 
+function overwriteManifestFiles(target, files) {
+  const manifestPath = path.join(target, ".agent-work/install.json");
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+  fs.writeFileSync(manifestPath, JSON.stringify({ ...manifest, files }, null, 2) + "\n");
+}
+
 test("check passes after init", async () => {
   const target = tempTarget();
   await runInit({ target, harness: "codex", yes: true, dryRun: false, force: false }, bufferIo().io);
@@ -121,6 +127,47 @@ test("check refuses to read installed files through symlinks", async () => {
 
   assert.equal(status, 1);
   assert.match(output().stderr, /Refusing to read through symlink AGENTS.md/);
+});
+
+test("check rejects manifest file entries that escape the install set", async () => {
+  const invalidEntries = [
+    { files: ["../AGENTS.md"], message: /Invalid manifest file entry \.\.\/AGENTS\.md/ },
+    { files: ["/AGENTS.md"], message: /Invalid manifest file entry \/AGENTS\.md/ },
+    { files: [""], message: /Invalid manifest file entry/ },
+    { files: [42], message: /Invalid manifest file entry/ },
+    { files: ["README.md"], message: /Unknown manifest file entry README\.md/ },
+  ];
+
+  for (const { files, message } of invalidEntries) {
+    const target = tempTarget();
+    await runInit({ target, harness: "codex", yes: true, dryRun: false, force: false }, bufferIo().io);
+    const manifestPath = path.join(target, ".agent-work/install.json");
+    const beforeManifest = fs.readFileSync(manifestPath, "utf8");
+    overwriteManifestFiles(target, files);
+    const tamperedManifest = fs.readFileSync(manifestPath, "utf8");
+
+    const { io, output } = bufferIo();
+    const status = await runCheck({ target, harness: undefined }, io);
+
+    assert.notEqual(tamperedManifest, beforeManifest);
+    assert.equal(status, 1);
+    assert.match(output().stderr, message);
+    assert.equal(fs.readFileSync(manifestPath, "utf8"), tamperedManifest);
+  }
+});
+
+test("check refuses broken symlinks at installed paths", async () => {
+  const target = tempTarget();
+  await runInit({ target, harness: "codex", yes: true, dryRun: false, force: false }, bufferIo().io);
+  fs.rmSync(path.join(target, "AGENTS.md"));
+  fs.symlinkSync(path.join(target, "missing-target.md"), path.join(target, "AGENTS.md"));
+
+  const { io, output } = bufferIo();
+  const status = await runCheck({ target, harness: undefined }, io);
+
+  assert.equal(status, 1);
+  assert.match(output().stderr, /Refusing to read through symlink AGENTS.md/);
+  assert.equal(fs.lstatSync(path.join(target, "AGENTS.md")).isSymbolicLink(), true);
 });
 
 test("CLI dispatch runs check", async () => {

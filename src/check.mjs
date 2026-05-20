@@ -6,6 +6,8 @@ import { filesForHarnesses, resolveHarnesses } from "./harnesses.mjs";
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const installManifestPath = ".agent-work/install.json";
+const installableFiles = Object.freeze(filesForHarnesses(resolveHarnesses(undefined)));
+const installableFileSet = new Set(installableFiles);
 
 function readManifest(targetRoot) {
   const manifestPath = path.join(targetRoot, installManifestPath);
@@ -17,17 +19,26 @@ function readManifest(targetRoot) {
 }
 
 function readComparableFiles(root, relativePath) {
-  const sourcePath = path.join(root, relativePath);
-  if (!fs.existsSync(sourcePath)) {
+  const comparable = readComparablePath(root, relativePath);
+  if (comparable.missing) {
     return { files: null, symlink: null };
   }
 
-  return readComparablePath(root, relativePath);
+  return comparable;
 }
 
 function readComparablePath(root, relativePath) {
   const sourcePath = path.join(root, relativePath);
-  const stat = fs.lstatSync(sourcePath);
+  let stat;
+  try {
+    stat = fs.lstatSync(sourcePath);
+  } catch (error) {
+    if (error?.code === "ENOENT") {
+      return { files: null, symlink: null, missing: true };
+    }
+    throw error;
+  }
+
   if (stat.isSymbolicLink()) {
     return { files: null, symlink: relativePath };
   }
@@ -39,6 +50,44 @@ function readComparablePath(root, relativePath) {
   const files = new Map();
   const symlink = readDirectoryFiles(root, relativePath, files);
   return { files, symlink };
+}
+
+function validateManifestFiles(manifest) {
+  if (!manifest || manifest.files === undefined) {
+    return { files: installableFiles, failures: [] };
+  }
+
+  if (!Array.isArray(manifest.files)) {
+    return { files: [], failures: ["Invalid manifest files list"] };
+  }
+
+  const files = [];
+  const failures = [];
+
+  for (const entry of manifest.files) {
+    const invalidReason = invalidManifestFileReason(entry);
+    if (invalidReason !== null) {
+      failures.push(invalidReason);
+    } else if (!installableFileSet.has(entry)) {
+      failures.push(`Unknown manifest file entry ${entry}`);
+    } else {
+      files.push(entry);
+    }
+  }
+
+  return { files, failures };
+}
+
+function invalidManifestFileReason(entry) {
+  if (typeof entry !== "string" || entry.length === 0) {
+    return `Invalid manifest file entry ${String(entry)}`;
+  }
+
+  if (path.isAbsolute(entry) || entry.split(/[\\/]/).includes("..")) {
+    return `Invalid manifest file entry ${entry}`;
+  }
+
+  return null;
 }
 
 function readDirectoryFiles(root, relativePath, files) {
@@ -70,10 +119,13 @@ function readDirectoryFiles(root, relativePath, files) {
 export async function runCheck(options, io) {
   const targetRoot = path.resolve(options.target);
   const manifest = readManifest(targetRoot);
-  const files = options.harness
-    ? filesForHarnesses(resolveHarnesses(options.harness))
-    : (manifest?.files ?? filesForHarnesses(resolveHarnesses(undefined)));
+  const manifestSelection = validateManifestFiles(manifest);
+  const files = options.harness ? filesForHarnesses(resolveHarnesses(options.harness)) : manifestSelection.files;
   const failures = [];
+
+  if (!options.harness) {
+    failures.push(...manifestSelection.failures);
+  }
 
   for (const relativePath of files) {
     const expected = readComparableFiles(packageRoot, relativePath);
