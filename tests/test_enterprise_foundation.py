@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import subprocess
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -53,7 +54,9 @@ OLD_REPOSITORY_NAMES = {
 
 
 def _read(relative_path: str) -> str:
-    return (REPO_ROOT / relative_path).read_text(encoding="utf-8")
+    path = REPO_ROOT / relative_path
+    assert path.is_file(), f"{relative_path} must exist"
+    return path.read_text(encoding="utf-8")
 
 
 def _frontmatter(path: Path) -> str:
@@ -65,12 +68,14 @@ def _frontmatter(path: Path) -> str:
 
 
 def _all_markdown_files() -> list[Path]:
-    ignored_parts = {".git", ".venv"}
-    return sorted(
-        path
-        for path in REPO_ROOT.rglob("*.md")
-        if not ignored_parts.intersection(path.relative_to(REPO_ROOT).parts)
+    result = subprocess.run(
+        ["git", "ls-files", "*.md"],
+        cwd=REPO_ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
     )
+    return sorted(REPO_ROOT / path for path in result.stdout.splitlines() if path)
 
 
 def test_required_enterprise_files_exist() -> None:
