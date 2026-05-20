@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import { stat } from "node:fs/promises";
+import { spawnSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
@@ -73,4 +75,48 @@ test("package metadata defines the npm distribution skeleton", async () => {
     "check:node": "npm run test:node && npm run pack:check",
   });
   assert.deepEqual(manifest.engines, { node: ">=20" });
+});
+
+test("package bin targets exist and route to a useful CLI", async () => {
+  const manifest = JSON.parse(await readFile(new URL("../../package.json", import.meta.url), "utf8"));
+  const binTargets = new Set(Object.values(manifest.bin));
+
+  for (const target of binTargets) {
+    await stat(new URL(`../..${target.slice(1)}`, import.meta.url));
+  }
+
+  const help = spawnSync(process.execPath, ["bin/portable-agent-workflows.mjs", "--help"], {
+    cwd: new URL("../..", import.meta.url),
+    encoding: "utf8",
+  });
+  assert.equal(help.status, 0, help.stderr);
+  assert.match(help.stdout, /portable-agent-workflows/);
+  assert.match(help.stdout, /list-harnesses/);
+
+  const list = spawnSync(process.execPath, ["bin/portable-agent-workflows.mjs", "list-harnesses"], {
+    cwd: new URL("../..", import.meta.url),
+    encoding: "utf8",
+  });
+  assert.equal(list.status, 0, list.stderr);
+  assert.deepEqual(list.stdout.trim().split("\n"), [
+    "codex\tCodex\tstable",
+    "claude\tClaude Code\tstable",
+    "cursor\tCursor\tstable",
+    "opencode\tOpenCode\tdocumented",
+  ]);
+
+  for (const command of ["init", "check"]) {
+    const result = spawnSync(process.execPath, ["bin/portable-agent-workflows.mjs", command], {
+      cwd: new URL("../..", import.meta.url),
+      encoding: "utf8",
+    });
+    assert.equal(result.status, 2);
+    assert.match(result.stderr, new RegExp(`${command} is not implemented yet`));
+  }
+});
+
+test("declared harness files exist in the package source", async () => {
+  for (const file of filesForHarnesses(ALL_HARNESSES)) {
+    await stat(new URL(`../../${file}`, import.meta.url));
+  }
 });
