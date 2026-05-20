@@ -1,0 +1,11 @@
+{
+  "name": "portable-agent-workflows",
+  "version": "0.1.0",
+  "description": "Portable agent-work-v1 workflow skills for Claude Code.",
+  "author": {
+    "name": "Martin Klein"
+  },
+  "skills": [
+    "./skills/shape-idea"
+  ]
+}
