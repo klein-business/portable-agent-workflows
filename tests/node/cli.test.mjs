@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
@@ -9,11 +11,16 @@ import { parseArgs } from "../../src/cli.mjs";
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const binPath = path.join(repoRoot, "bin/portable-agent-workflows.mjs");
 
-function runCli(args) {
+function runCli(args, options = {}) {
   return spawnSync(process.execPath, [binPath, ...args], {
     cwd: repoRoot,
     encoding: "utf8",
+    input: options.input,
   });
+}
+
+function tempTarget() {
+  return fs.mkdtempSync(path.join(os.tmpdir(), "paw-cli-"));
 }
 
 test("prints help", () => {
@@ -83,4 +90,29 @@ test("prints command help without dispatching future modules", () => {
     assert.match(result.stdout, /init/);
     assert.match(result.stdout, /check/);
   }
+});
+
+test("bare init prompts for harness selection", () => {
+  const target = tempTarget();
+  const result = runCli(["init", "--target", target], { input: "codex\n" });
+
+  assert.equal(result.status, 0);
+  assert.match(result.stdout, /Select harnesses/);
+  assert.equal(fs.existsSync(path.join(target, "AGENTS.md")), true);
+  assert.equal(fs.existsSync(path.join(target, "CLAUDE.md")), false);
+
+  const manifest = JSON.parse(
+    fs.readFileSync(path.join(target, ".agent-work/install.json"), "utf8"),
+  );
+  assert.deepEqual(manifest.harnesses, ["codex"]);
+});
+
+test("bare init without non-interactive input does not install defaults", () => {
+  const target = tempTarget();
+  const result = runCli(["init", "--target", target], { input: "" });
+
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /Pass --harness or --yes/);
+  assert.equal(fs.existsSync(path.join(target, "AGENTS.md")), false);
+  assert.equal(fs.existsSync(path.join(target, ".agent-work/install.json")), false);
 });

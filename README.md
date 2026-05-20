@@ -111,6 +111,12 @@ git diff --check
 Install project-local workflow files into another repository:
 
 ```bash
+npx portable-agent-workflows init
+```
+
+For non-interactive installs, select harnesses explicitly:
+
+```bash
 npx portable-agent-workflows init --harness codex,claude,cursor,opencode --yes
 npx portable-agent-workflows check
 ```

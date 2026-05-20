@@ -6,6 +6,13 @@ The npm package is an initializer, not a runtime framework.
 ## Quickstart
 
 ```bash
+npx portable-agent-workflows init
+```
+
+The interactive command prompts for harness selection. For non-interactive
+installs, pass the selected harnesses explicitly:
+
+```bash
 npx portable-agent-workflows init --harness codex,claude,cursor,opencode --yes
 npx portable-agent-workflows check
 ```

@@ -62,6 +62,20 @@ test("init installs selected harness files and manifest", async () => {
   assert.deepEqual(manifest.harnesses, ["codex", "claude"]);
 });
 
+test("init requires an explicit harness selection or yes for all harnesses", async () => {
+  const target = tempTarget();
+  const { io, output } = bufferIo();
+  const status = await runInit(
+    { target, harness: undefined, yes: false, dryRun: false, force: false },
+    io,
+  );
+
+  assert.equal(status, 1);
+  assert.match(output().stderr, /Pass --harness or --yes/);
+  assert.equal(fs.existsSync(path.join(target, "AGENTS.md")), false);
+  assert.equal(fs.existsSync(path.join(target, ".agent-work/install.json")), false);
+});
+
 test("init refuses to overwrite existing files without force", async () => {
   const target = tempTarget();
   fs.writeFileSync(path.join(target, "AGENTS.md"), "local instructions\n");
@@ -112,6 +126,24 @@ test("init refuses an existing directory symlink even with force", async () => {
   assert.match(output().stderr, /Refusing to write through symlink \.agent-work/);
   assert.equal(fs.readFileSync(outsideFile, "utf8"), "external state\n");
   assert.equal(fs.existsSync(path.join(outside, ".agent-work", "install.json")), false);
+});
+
+test("init refuses a symlinked target root before writing files", async () => {
+  const parent = tempTarget();
+  const outside = tempTarget();
+  const target = path.join(parent, "project-link");
+  fs.symlinkSync(outside, target);
+
+  const { io, output } = bufferIo();
+  const status = await runInit(
+    { target, harness: "codex", yes: true, dryRun: false, force: true },
+    io,
+  );
+
+  assert.equal(status, 1);
+  assert.match(output().stderr, /Refusing to use symlink target/);
+  assert.equal(fs.existsSync(path.join(outside, "AGENTS.md")), false);
+  assert.equal(fs.existsSync(path.join(outside, ".agent-work/install.json")), false);
 });
 
 test("planned action targets stay within the resolved target root", () => {

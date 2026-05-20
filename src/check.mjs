@@ -76,6 +76,21 @@ function findSymlinkInPath(root, relativePath) {
   return { found: null, missing: false };
 }
 
+function symlinkTargetRootReason(targetRoot) {
+  try {
+    if (fs.lstatSync(targetRoot).isSymbolicLink()) {
+      return "Refusing to use symlink target .";
+    }
+  } catch (error) {
+    if (error?.code === "ENOENT") {
+      return null;
+    }
+    throw error;
+  }
+
+  return null;
+}
+
 function validateManifestFiles(manifest) {
   if (!manifest || manifest.files === undefined) {
     return { files: installableFiles, failures: [] };
@@ -142,6 +157,12 @@ function readDirectoryFiles(root, relativePath, files) {
 
 export async function runCheck(options, io) {
   const targetRoot = path.resolve(options.target);
+  const targetRootReason = symlinkTargetRootReason(targetRoot);
+  if (targetRootReason !== null) {
+    io.stderr.write(`${targetRootReason}; choose a real project directory.\n`);
+    return 1;
+  }
+
   const { manifest, failure: manifestFailure } = readManifest(targetRoot);
   const manifestSelection = validateManifestFiles(manifest);
   const files = options.harness ? filesForHarnesses(resolveHarnesses(options.harness)) : manifestSelection.files;

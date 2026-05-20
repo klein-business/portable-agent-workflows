@@ -11,7 +11,7 @@
 | Harness | Adapter | Native entrypoint | Generated | Stability |
 |---------|---------|-------------------|-----------|-----------|
 | Codex | `.agent-work/adapters/codex.md` | `AGENTS.md` | yes | stable |
-| OpenCode | `.agent-work/adapters/opencode.md` | adapter documentation | no | documented |
+| OpenCode | `.agent-work/adapters/opencode.md` | `.opencode/commands/shape-idea.md` | yes | documented |
 | Claude Code | `.agent-work/adapters/claude.md` | `CLAUDE.md`, `.claude/commands/shape-idea.md` | yes | stable |
 | Cursor | `.agent-work/adapters/cursor.md` | `.cursor/rules/agent-work.mdc`, `AGENTS.md` fallback | yes | stable |
 

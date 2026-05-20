@@ -1,8 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
+import { createInterface } from "node:readline/promises";
 import { fileURLToPath } from "node:url";
 
-import { filesForHarnesses, resolveHarnesses } from "./harnesses.mjs";
+import { ALL_HARNESSES, filesForHarnesses, resolveHarnesses } from "./harnesses.mjs";
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -64,6 +65,62 @@ function unsafeWriteReason(action, targetRoot) {
   return null;
 }
 
+function symlinkTargetRootReason(targetRoot) {
+  try {
+    if (fs.lstatSync(targetRoot).isSymbolicLink()) {
+      return "Refusing to use symlink target .";
+    }
+  } catch (error) {
+    if (error?.code === "ENOENT") {
+      return null;
+    }
+    throw error;
+  }
+
+  return null;
+}
+
+async function resolveInitHarnessOption(options, io) {
+  if (options.harness || options.yes) {
+    return { harness: options.harness, error: null };
+  }
+
+  if (!io.stdin) {
+    return { harness: null, error: "Pass --harness or --yes to install all supported harnesses." };
+  }
+
+  const ids = ALL_HARNESSES.map((harness) => harness.id).join(",");
+  if (!io.stdin.isTTY) {
+    io.stdout.write(`Select harnesses (${ids}; blank for all): `);
+    const answer = await readPipedHarnessAnswer(io.stdin);
+    if (answer === null) {
+      return { harness: null, error: "Pass --harness or --yes to install all supported harnesses." };
+    }
+    return { harness: answer === "" ? undefined : answer, error: null };
+  }
+
+  const rl = createInterface({ input: io.stdin, output: io.stdout, terminal: false });
+  try {
+    const answer = await rl.question(`Select harnesses (${ids}; blank for all): `);
+    return { harness: answer.trim() === "" ? undefined : answer.trim(), error: null };
+  } finally {
+    rl.close();
+  }
+}
+
+async function readPipedHarnessAnswer(stdin) {
+  let input = "";
+  for await (const chunk of stdin) {
+    input += chunk;
+  }
+
+  if (input.length === 0) {
+    return null;
+  }
+
+  return input.split(/\r?\n/, 1)[0].trim();
+}
+
 export function buildInstallActions(options) {
   const harnesses = resolveHarnesses(options.harness);
   const files = filesForHarnesses(harnesses);
@@ -103,7 +160,13 @@ export function buildInstallActions(options) {
 }
 
 export async function runInit(options, io) {
-  const { actions } = buildInstallActions(options);
+  const harnessSelection = await resolveInitHarnessOption(options, io);
+  if (harnessSelection.error !== null) {
+    io.stderr.write(`${harnessSelection.error}\n`);
+    return 1;
+  }
+
+  const { actions } = buildInstallActions({ ...options, harness: harnessSelection.harness });
   const targetRoot = path.resolve(options.target);
   const fileActions = removeInstallManifestFromActions(actions);
 
@@ -120,6 +183,12 @@ export async function runInit(options, io) {
       io.stderr.write(`Refusing to overwrite ${action.relativePath}; rerun with --force.\n`);
       return 1;
     }
+  }
+
+  const targetRootReason = symlinkTargetRootReason(targetRoot);
+  if (targetRootReason !== null) {
+    io.stderr.write(`${targetRootReason}; choose a real project directory.\n`);
+    return 1;
   }
 
   for (const action of actions) {

@@ -228,6 +228,21 @@ test("check refuses a symlinked agent work directory before reading manifest", a
   assert.equal(fs.lstatSync(path.join(target, ".agent-work")).isSymbolicLink(), true);
 });
 
+test("check refuses a symlinked target root before reading files", async () => {
+  const parent = tempTarget();
+  const outside = tempTarget();
+  const target = path.join(parent, "project-link");
+  await runInit({ target: outside, harness: "codex", yes: true, dryRun: false, force: false }, bufferIo().io);
+  fs.symlinkSync(outside, target);
+
+  const { io, output } = bufferIo();
+  const status = await runCheck({ target, harness: undefined }, io);
+
+  assert.equal(status, 1);
+  assert.match(output().stderr, /Refusing to use symlink target/);
+  assert.doesNotMatch(output().stdout, /Installed portable-agent-workflows files are current/);
+});
+
 test("CLI dispatch runs check", async () => {
   const target = tempTarget();
   await runInit({ target, harness: "codex", yes: true, dryRun: false, force: false }, bufferIo().io);
