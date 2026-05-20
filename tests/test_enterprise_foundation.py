@@ -27,7 +27,9 @@ REQUIRED_ENTERPRISE_FILES = {
     "docs/governance/adr/README.md",
     "docs/governance/adr/0001-enterprise-foundation.md",
     "docs/admin/github-settings.md",
+    "docs/distribution.md",
     "docs/reference/compatibility-matrix.md",
+    "package.json",
     "tools/check_markdown_links.py",
 }
 
@@ -48,6 +50,7 @@ REQUIRED_README_LINKS = {
     "docs/governance/compatibility-policy.md",
     "docs/governance/deprecation-policy.md",
     "docs/admin/github-settings.md",
+    "docs/distribution.md",
     "docs/reference/compatibility-matrix.md",
 }
 
@@ -173,6 +176,22 @@ def test_governance_docs_define_enterprise_rules() -> None:
 
     for term in ("Community Profile Settings", "Reported content", "Prior contributors"):
         assert term in github_settings
+
+
+def test_distribution_docs_describe_safe_project_local_install() -> None:
+    docs = _read("docs/distribution.md")
+
+    for term in (
+        "npx portable-agent-workflows init",
+        "--dry-run",
+        "--force",
+        "project-local",
+        "does not write to global",
+        "PyPI",
+        "Homebrew",
+        "MCP",
+    ):
+        assert term in docs
 
 
 def test_license_is_mit() -> None:

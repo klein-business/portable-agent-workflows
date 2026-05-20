@@ -9,6 +9,9 @@ model version is tracked separately as `agent-work-v1`.
 
 ### Added
 
+- Designed and planned adoption-first distribution with npm `npx` initialization,
+  project-local install safety, OpenCode command distribution, and Claude plugin
+  marketplace metadata.
 - Enterprise foundation design for governance, CI, compatibility, and release rules.
 
 ### Changed

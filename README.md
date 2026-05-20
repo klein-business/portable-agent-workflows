@@ -109,6 +109,16 @@ git diff --check
 
 ## Quickstart
 
+Install project-local workflow files into another repository:
+
+```bash
+npx portable-agent-workflows init --harness codex,claude,cursor,opencode --yes
+npx portable-agent-workflows check
+```
+
+See [Distribution][distribution] for safety rules, dry runs, overwrite behavior,
+and publishing boundaries.
+
 Install development dependencies with `uv`:
 
 ```bash
@@ -134,7 +144,7 @@ See the [compatibility matrix][compatibility-matrix] for current support status.
 - Start here: [Project overview][overview]
 - Governance: [Release policy][release-policy], [Compatibility policy][compatibility-policy], [Deprecation policy][deprecation-policy], [ADRs][adrs]
 - Administration: [GitHub settings][github-settings]
-- Reference: [Compatibility matrix][compatibility-matrix]
+- Reference: [Compatibility matrix][compatibility-matrix], [Distribution][distribution]
 - Modules: [Domain model][domain-model], [Adapters][adapters], [Harness generator][harness-generator], [Skills][skills], [Lifecycle example][lifecycle-example], [Validation tests][validation-tests]
 - Features: [Generated harness integration][generated-harness-integration], [Portable skill lifecycle][portable-skill-lifecycle], [Artifact validation][artifact-validation], [Harness adapters][harness-adapters]
 
@@ -147,6 +157,7 @@ See the [compatibility matrix][compatibility-matrix] for current support status.
 [changelog]: CHANGELOG.md
 [contributing]: CONTRIBUTING.md
 [deprecation-policy]: docs/governance/deprecation-policy.md
+[distribution]: docs/distribution.md
 [domain-model]: docs/modules/domain-model.md
 [generated-harness-integration]: docs/features/generated-harness-integration.md
 [github-settings]: docs/admin/github-settings.md
