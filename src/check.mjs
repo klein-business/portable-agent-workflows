@@ -10,21 +10,16 @@ const installableFiles = Object.freeze(filesForHarnesses(resolveHarnesses(undefi
 const installableFileSet = new Set(installableFiles);
 
 function readManifest(targetRoot) {
+  const symlink = findSymlinkInPath(targetRoot, installManifestPath);
+  if (symlink.found !== null) {
+    return { manifest: null, failure: `Refusing to read through symlink ${symlink.found}` };
+  }
+
+  if (symlink.missing) {
+    return { manifest: null, failure: null };
+  }
+
   const manifestPath = path.join(targetRoot, installManifestPath);
-  let stat;
-  try {
-    stat = fs.lstatSync(manifestPath);
-  } catch (error) {
-    if (error?.code === "ENOENT") {
-      return { manifest: null, failure: null };
-    }
-    throw error;
-  }
-
-  if (stat.isSymbolicLink()) {
-    return { manifest: null, failure: `Refusing to read through symlink ${installManifestPath}` };
-  }
-
   return { manifest: JSON.parse(fs.readFileSync(manifestPath, "utf8")), failure: null };
 }
 
@@ -38,28 +33,47 @@ function readComparableFiles(root, relativePath) {
 }
 
 function readComparablePath(root, relativePath) {
-  const sourcePath = path.join(root, relativePath);
-  let stat;
-  try {
-    stat = fs.lstatSync(sourcePath);
-  } catch (error) {
-    if (error?.code === "ENOENT") {
-      return { files: null, symlink: null, missing: true };
-    }
-    throw error;
+  const symlink = findSymlinkInPath(root, relativePath);
+  if (symlink.found !== null) {
+    return { files: null, symlink: symlink.found };
   }
 
-  if (stat.isSymbolicLink()) {
-    return { files: null, symlink: relativePath };
+  if (symlink.missing) {
+    return { files: null, symlink: null, missing: true };
   }
+
+  const sourcePath = path.join(root, relativePath);
+  const stat = fs.lstatSync(sourcePath);
 
   if (!stat.isDirectory()) {
     return { files: new Map([[relativePath, fs.readFileSync(sourcePath, "utf8")]]), symlink: null };
   }
 
   const files = new Map();
-  const symlink = readDirectoryFiles(root, relativePath, files);
-  return { files, symlink };
+  const nestedSymlink = readDirectoryFiles(root, relativePath, files);
+  return { files, symlink: nestedSymlink };
+}
+
+function findSymlinkInPath(root, relativePath) {
+  const parts = relativePath.split(/[\\/]/).filter(Boolean);
+  let current = root;
+
+  for (const part of parts) {
+    current = path.join(current, part);
+    try {
+      const stat = fs.lstatSync(current);
+      if (stat.isSymbolicLink()) {
+        return { found: path.relative(root, current), missing: false };
+      }
+    } catch (error) {
+      if (error?.code === "ENOENT") {
+        return { found: null, missing: true };
+      }
+      throw error;
+    }
+  }
+
+  return { found: null, missing: false };
 }
 
 function validateManifestFiles(manifest) {

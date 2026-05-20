@@ -204,6 +204,30 @@ test("check refuses a broken install manifest symlink", async () => {
   assert.equal(fs.lstatSync(manifestPath).isSymbolicLink(), true);
 });
 
+test("check refuses a symlinked agent work directory before reading manifest", async () => {
+  const target = tempTarget();
+  const outside = tempTarget();
+  await runInit({ target, harness: "codex", yes: true, dryRun: false, force: false }, bufferIo().io);
+  fs.rmSync(path.join(target, ".agent-work"), { recursive: true, force: true });
+  fs.mkdirSync(path.join(outside, ".agent-work"));
+  fs.writeFileSync(
+    path.join(outside, ".agent-work/install.json"),
+    JSON.stringify({ package: "portable-agent-workflows", version: "0.1.0", files: ["AGENTS.md"] }),
+  );
+  fs.symlinkSync(path.join(outside, ".agent-work"), path.join(target, ".agent-work"));
+
+  const { io, output } = bufferIo();
+  const status = await runCheck({ target, harness: undefined }, io);
+
+  assert.equal(status, 1);
+  assert.match(
+    output().stderr,
+    /Refusing to read through symlink \.agent-work(\/install\.json)?/,
+  );
+  assert.doesNotMatch(output().stdout, /Installed portable-agent-workflows files are current/);
+  assert.equal(fs.lstatSync(path.join(target, ".agent-work")).isSymbolicLink(), true);
+});
+
 test("CLI dispatch runs check", async () => {
   const target = tempTarget();
   await runInit({ target, harness: "codex", yes: true, dryRun: false, force: false }, bufferIo().io);
