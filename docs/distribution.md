@@ -20,12 +20,16 @@ npx portable-agent-workflows init --harness codex,claude --dry-run
 
 ## Overwrite Policy
 
-Existing files are not overwritten by default. Use `--force` only after reviewing
-the planned changes:
+Existing workflow files are not overwritten by default. Use `--force` only after
+reviewing the planned changes:
 
 ```bash
 npx portable-agent-workflows init --harness codex --force
 ```
+
+The install manifest is the exception. On every non-dry-run install, the
+initializer writes `.agent-work/install.json` with the selected harnesses and
+installed file list so `check` can verify that exact project-local install later.
 
 ## Installed Files
 
@@ -37,9 +41,6 @@ The installer writes project-local files such as:
 - `.claude/commands/shape-idea.md`
 - `.cursor/rules/agent-work.mdc`
 - `.opencode/commands/shape-idea.md`
-
-It also writes `.agent-work/install.json` so `check` can verify the selected
-harnesses on subsequent runs.
 
 ## Safety Boundary
 

@@ -43,8 +43,7 @@ This model combines the strongest ideas from [obra/superpowers](https://github.c
 
 ## What This Repository Is Not
 
-- It is not a runtime library.
-- It is not an installer.
+- It is not a runtime library or global installer.
 - It is not tied to one agent harness.
 - It does not mutate GitHub repository settings automatically.
 
