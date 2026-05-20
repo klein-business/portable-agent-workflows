@@ -1,5 +1,31 @@
 # Portable Agent Workflows
 
+<p align="center">
+  <img alt="Private repository" src="https://img.shields.io/badge/repository-private-111827?style=for-the-badge">
+  <img alt="Domain model agent-work-v1" src="https://img.shields.io/badge/domain-agent--work--v1-2563eb?style=for-the-badge">
+  <img alt="Harness agnostic" src="https://img.shields.io/badge/harness-agnostic-0f766e?style=for-the-badge">
+  <img alt="PR first" src="https://img.shields.io/badge/governance-PR--first-7c3aed?style=for-the-badge">
+  <img alt="Compatibility governed" src="https://img.shields.io/badge/compatibility-governed-4338ca?style=for-the-badge">
+  <img alt="Security policy" src="https://img.shields.io/badge/security-policy-b91c1c?style=for-the-badge">
+</p>
+
+<p align="center">
+  <img alt="CI configured" src="https://img.shields.io/badge/CI-configured-16a34a?style=for-the-badge">
+  <img alt="CodeQL configured" src="https://img.shields.io/badge/CodeQL-configured-0f172a?style=for-the-badge">
+  <img alt="Dependabot configured" src="https://img.shields.io/badge/Dependabot-configured-025e8c?style=for-the-badge">
+  <img alt="Python 3.11+" src="https://img.shields.io/badge/Python-3.11%2B-3776ab?style=for-the-badge&logo=python&logoColor=white">
+  <img alt="uv" src="https://img.shields.io/badge/uv-managed-de5fe9?style=for-the-badge">
+  <img alt="Ruff" src="https://img.shields.io/badge/Ruff-enabled-d7ff64?style=for-the-badge">
+  <img alt="pytest" src="https://img.shields.io/badge/pytest-14%20tests-0a9edc?style=for-the-badge">
+</p>
+
+<p align="center">
+  <img alt="Codex supported" src="https://img.shields.io/badge/Codex-stable-111827?style=for-the-badge">
+  <img alt="OpenCode documented" src="https://img.shields.io/badge/OpenCode-documented-334155?style=for-the-badge">
+  <img alt="Claude Code supported" src="https://img.shields.io/badge/Claude%20Code-stable-d97706?style=for-the-badge">
+  <img alt="Cursor supported" src="https://img.shields.io/badge/Cursor-stable-000000?style=for-the-badge">
+</p>
+
 Portable Agent Workflows is a harness-agnostic workflow layer for coding agents. It defines a shared vocabulary, portable skills, adapter mappings, persistent artifacts, and generated native entrypoints so Codex, OpenCode, Claude Code, Cursor, and similar harnesses can follow the same workflow model without sharing tool names or hidden chat state.
 
 ## Origins
