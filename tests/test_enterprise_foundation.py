@@ -12,6 +12,7 @@ REQUIRED_ENTERPRISE_FILES = {
     ".github/workflows/codeql.yml",
     ".github/dependabot.yml",
     ".github/pull_request_template.md",
+    ".github/ISSUE_TEMPLATE.md",
     ".github/ISSUE_TEMPLATE/bug_report.md",
     ".github/ISSUE_TEMPLATE/change_request.md",
     "CODEOWNERS",
