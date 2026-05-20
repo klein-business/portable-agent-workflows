@@ -1,0 +1,33 @@
+{
+  "name": "portable-agent-workflows",
+  "version": "0.1.0",
+  "description": "Portable, harness-agnostic agent workflows with shared skills, durable artifacts, review gates, and native integrations.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "portable-agent-workflows": "./bin/portable-agent-workflows.mjs",
+    "paw": "./bin/portable-agent-workflows.mjs"
+  },
+  "files": [
+    ".agent-work/",
+    ".claude-plugin/",
+    ".claude/commands/",
+    ".cursor/rules/",
+    ".opencode/commands/",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "LICENSE",
+    "README.md",
+    "bin/",
+    "plugins/",
+    "src/"
+  ],
+  "scripts": {
+    "test:node": "node --test tests/node/*.test.mjs",
+    "pack:check": "npm pack --dry-run --json",
+    "check:node": "npm run test:node && npm run pack:check"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
