@@ -35,6 +35,13 @@ def local_link_target(raw_target: str) -> str | None:
     return urllib.parse.unquote(target)
 
 
+def resolve_local_target(root: Path, source: Path, target: str) -> Path:
+    if target.startswith("/"):
+        return (root / target.lstrip("/")).resolve()
+
+    return (source.parent / target).resolve()
+
+
 def find_missing_links(root: Path) -> list[str]:
     missing = []
 
@@ -45,7 +52,7 @@ def find_missing_links(root: Path) -> list[str]:
             if target is None:
                 continue
 
-            resolved = (path.parent / target).resolve()
+            resolved = resolve_local_target(root, path, target)
             if not resolved.exists():
                 missing.append(f"{path.relative_to(root)} -> {match.group(1)}")
 
