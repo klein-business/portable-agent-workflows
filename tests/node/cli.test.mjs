@@ -74,19 +74,13 @@ test("parses future check options and short help", () => {
   });
 });
 
-test("init and check fail clearly until implementation modules exist", () => {
+test("prints command help without dispatching future modules", () => {
   for (const command of ["init", "check"]) {
-    const result = runCli([
-      command,
-      "--harness",
-      "codex",
-      "--target",
-      "example-target",
-      "--yes",
-      "--dry-run",
-      "--force",
-    ]);
-    assert.equal(result.status, 2);
-    assert.match(result.stderr, new RegExp(`${command} is not implemented yet`));
+    const result = runCli([command, "--help"]);
+    assert.equal(result.status, 0);
+    assert.equal(result.stderr, "");
+    assert.match(result.stdout, /portable-agent-workflows/);
+    assert.match(result.stdout, /init/);
+    assert.match(result.stdout, /check/);
   }
 });

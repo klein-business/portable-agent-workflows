@@ -104,15 +104,6 @@ test("package bin targets exist and route to a useful CLI", async () => {
     "cursor\tCursor\tstable",
     "opencode\tOpenCode\tdocumented",
   ]);
-
-  for (const command of ["init", "check"]) {
-    const result = spawnSync(process.execPath, ["bin/portable-agent-workflows.mjs", command], {
-      cwd: new URL("../..", import.meta.url),
-      encoding: "utf8",
-    });
-    assert.equal(result.status, 2);
-    assert.match(result.stderr, new RegExp(`${command} is not implemented yet`));
-  }
 });
 
 test("declared harness files exist in the package source", async () => {
