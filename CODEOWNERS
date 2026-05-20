@@ -1,0 +1,13 @@
+# Initial ownership map. Replace @flitzrrr with an organization team when one exists.
+* @flitzrrr
+
+/.agent-work/ @flitzrrr
+/tools/ @flitzrrr
+/tests/ @flitzrrr
+/.github/ @flitzrrr
+/docs/governance/ @flitzrrr
+/docs/admin/ @flitzrrr
+/docs/reference/ @flitzrrr
+/SECURITY.md @flitzrrr
+/CONTRIBUTING.md @flitzrrr
+/CHANGELOG.md @flitzrrr
