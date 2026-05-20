@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 
-import { runInit } from "../../src/install.mjs";
+import { buildInstallActions, runInit } from "../../src/install.mjs";
 
 function tempTarget() {
   return fs.mkdtempSync(path.join(os.tmpdir(), "paw-init-"));
@@ -74,4 +74,58 @@ test("init refuses to overwrite existing files without force", async () => {
   assert.equal(status, 1);
   assert.match(output().stderr, /Refusing to overwrite AGENTS.md/);
   assert.equal(fs.readFileSync(path.join(target, "AGENTS.md"), "utf8"), "local instructions\n");
+});
+
+test("init refuses an existing file symlink even with force", async () => {
+  const target = tempTarget();
+  const outside = tempTarget();
+  const outsideFile = path.join(outside, "AGENTS.md");
+  fs.writeFileSync(outsideFile, "external instructions\n");
+  fs.symlinkSync(outsideFile, path.join(target, "AGENTS.md"));
+
+  const { io, output } = bufferIo();
+  const status = await runInit(
+    { target, harness: "codex", yes: true, dryRun: false, force: true },
+    io,
+  );
+
+  assert.equal(status, 1);
+  assert.match(output().stderr, /Refusing to write through symlink AGENTS.md/);
+  assert.equal(fs.readFileSync(outsideFile, "utf8"), "external instructions\n");
+});
+
+test("init refuses an existing directory symlink even with force", async () => {
+  const target = tempTarget();
+  const outside = tempTarget();
+  fs.mkdirSync(path.join(outside, ".agent-work"));
+  const outsideFile = path.join(outside, ".agent-work", "external.txt");
+  fs.writeFileSync(outsideFile, "external state\n");
+  fs.symlinkSync(path.join(outside, ".agent-work"), path.join(target, ".agent-work"));
+
+  const { io, output } = bufferIo();
+  const status = await runInit(
+    { target, harness: "codex", yes: true, dryRun: false, force: true },
+    io,
+  );
+
+  assert.equal(status, 1);
+  assert.match(output().stderr, /Refusing to write through symlink \.agent-work/);
+  assert.equal(fs.readFileSync(outsideFile, "utf8"), "external state\n");
+  assert.equal(fs.existsSync(path.join(outside, ".agent-work", "install.json")), false);
+});
+
+test("planned action targets stay within the resolved target root", () => {
+  const parent = tempTarget();
+  const target = path.join(parent, "nested", "..", "project");
+  const { actions } = buildInstallActions({ target, harness: "codex" });
+  const targetRoot = path.resolve(target);
+
+  for (const action of actions) {
+    const relative = path.relative(targetRoot, action.target);
+    assert.equal(
+      relative === "" || (!relative.startsWith("..") && !path.isAbsolute(relative)),
+      true,
+      `${action.relativePath} escapes ${targetRoot}`,
+    );
+  }
 });
