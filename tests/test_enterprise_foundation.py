@@ -19,6 +19,7 @@ REQUIRED_ENTERPRISE_FILES = {
     "CONTRIBUTING.md",
     "CHANGELOG.md",
     "LICENSE",
+    "CODE_OF_CONDUCT.md",
     "docs/governance/release-policy.md",
     "docs/governance/compatibility-policy.md",
     "docs/governance/deprecation-policy.md",
@@ -41,6 +42,7 @@ REQUIRED_README_LINKS = {
     "CONTRIBUTING.md",
     "CHANGELOG.md",
     "LICENSE",
+    "CODE_OF_CONDUCT.md",
     "docs/governance/release-policy.md",
     "docs/governance/compatibility-policy.md",
     "docs/governance/deprecation-policy.md",
@@ -52,6 +54,19 @@ OLD_REPOSITORY_NAMES = {
     "portable-agent-work-" + "model",
     "Portable Agent Work " + "Model",
     "portable agent work " + "model",
+}
+
+PUBLIC_README_FORBIDDEN_PHRASES = {
+    "repository-private",
+    "Private repository",
+}
+
+PUBLIC_README_REQUIRED_PHRASES = {
+    "Public Project Status",
+    "open-source",
+    "MIT",
+    "CODE_OF_CONDUCT.md",
+    "docs/superpowers/",
 }
 
 
@@ -161,6 +176,24 @@ def test_license_is_mit() -> None:
     assert license_text.startswith("MIT License")
     assert "Copyright (c) 2026 Martin Klein" in license_text
     assert "Permission is hereby granted, free of charge" in license_text
+
+
+def test_public_launch_readme_is_ready() -> None:
+    readme = _read("README.md")
+
+    for phrase in PUBLIC_README_FORBIDDEN_PHRASES:
+        assert phrase not in readme, f"README.md must not contain {phrase}"
+
+    for phrase in PUBLIC_README_REQUIRED_PHRASES:
+        assert phrase in readme, f"README.md must contain {phrase}"
+
+
+def test_process_history_is_explained_for_public_readers() -> None:
+    overview = _read("docs/overview.md")
+
+    assert "docs/superpowers/" in overview
+    assert "design and planning history" in overview
+    assert "primary reader path" in overview
 
 
 def test_markdown_files_do_not_reference_old_repository_name() -> None:

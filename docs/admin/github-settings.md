@@ -62,6 +62,20 @@ Enable when available for the organization plan:
 - Secret scanning
 - Private vulnerability reporting
 
+## Public Launch Settings
+
+Use these repository feature settings for the first public launch:
+
+- Visibility: public
+- Issues: enabled
+- Wiki: disabled
+- Projects: disabled
+- Discussions: disabled
+- Forking: enabled
+
+Keep Discussions disabled until there is a clear moderation and response pattern.
+Use Issues and Pull Requests as the initial public collaboration paths.
+
 ## Administrator Exception
 
 Direct `main` changes are reserved for explicit administrator exceptions. Record the

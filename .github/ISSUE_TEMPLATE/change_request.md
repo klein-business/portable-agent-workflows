@@ -32,3 +32,8 @@ assignees: ""
 - [ ] Migration guide
 - [ ] Deprecation notice
 - [ ] Tests or validation update
+
+## Public Readiness
+
+- [ ] This change keeps the repository understandable for first-time readers.
+- [ ] This change updates compatibility documentation when needed.

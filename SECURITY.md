@@ -4,7 +4,8 @@
 
 Do not open a public issue for vulnerabilities. Report security concerns through a
 private GitHub security advisory for this repository. If advisories are unavailable,
-contact @flitzrrr at https://github.com/flitzrrr and request a private reporting channel.
+contact the current maintainers listed in `CODEOWNERS` and request a private
+reporting channel.
 
 Include:
 

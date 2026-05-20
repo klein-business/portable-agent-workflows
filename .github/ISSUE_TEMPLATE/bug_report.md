@@ -23,3 +23,8 @@ assignees: ""
 ## Reproduction
 
 ## Verification Evidence
+
+## Public Contribution Check
+
+- [ ] I did not include secrets, private keys, or sensitive vulnerability details.
+- [ ] I checked the README and relevant documentation first.

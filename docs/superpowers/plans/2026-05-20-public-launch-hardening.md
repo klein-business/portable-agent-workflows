@@ -278,7 +278,7 @@ reporting channel.
 Replace the first line of `CODEOWNERS` with:
 
 ```text
-# Initial ownership map. Replace @flitzrrr with an organization team when one exists.
+# Repository ownership map for required reviews.
 ```
 
 If that line already matches, leave it unchanged.
@@ -292,7 +292,6 @@ uv run pytest \
   tests/test_enterprise_foundation.py::test_required_enterprise_files_exist \
   tests/test_enterprise_foundation.py::test_readme_links_to_enterprise_entrypoints \
   tests/test_enterprise_foundation.py::test_public_launch_readme_is_ready \
-  tests/test_enterprise_foundation.py::test_process_history_is_explained_for_public_readers \
   -v
 ```
 
@@ -315,7 +314,7 @@ Append this section to `.github/ISSUE_TEMPLATE/bug_report.md`:
 ## Public Contribution Check
 
 - [ ] I did not include secrets, private keys, or sensitive vulnerability details.
-- [ ] I checked the current README and documentation path first.
+- [ ] I checked the README and relevant documentation first.
 ```
 
 - [ ] **Step 2: Update change request template**
@@ -326,7 +325,7 @@ Append this section to `.github/ISSUE_TEMPLATE/change_request.md`:
 ## Public Readiness
 
 - [ ] This change keeps the repository understandable for first-time readers.
-- [ ] This change preserves or updates the public compatibility story.
+- [ ] This change updates compatibility documentation when needed.
 ```
 
 - [ ] **Step 3: Update pull request template**
@@ -337,7 +336,7 @@ Add this checklist block after `## Scope` in `.github/pull_request_template.md`:
 ## Public Surface
 
 - [ ] README, docs, and generated entrypoints remain accurate for public readers.
-- [ ] Community, security, and contribution routes remain intact.
+- [ ] Community, security, and contribution links and instructions remain accurate.
 - [ ] `docs/superpowers/` changes are design or planning history, not primary product documentation.
 ```
 

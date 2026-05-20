@@ -107,6 +107,13 @@ uv run python tools/check_markdown_links.py
 
 The test strategy is structural: it checks required terms, role mappings, skill shape, gate vocabulary, generated harness-file currentness, and example lifecycle frontmatter.
 
+## Process History
+
+`docs/superpowers/` contains design and planning history for significant repository
+changes. It is kept for transparency and handover continuity. The primary reader path
+remains `README.md`, this overview, `docs/reference/compatibility-matrix.md`,
+`.agent-work/glossary.md`, and `.agent-work/skills/`.
+
 ## References
 
 - [Root README](../README.md)

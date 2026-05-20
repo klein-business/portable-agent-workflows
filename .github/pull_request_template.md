@@ -8,6 +8,12 @@
 - [ ] `.agent-work/` source artifacts remain the source of truth.
 - [ ] Generated harness files are updated or verified current.
 
+## Public Surface
+
+- [ ] README, docs, and generated entrypoints remain accurate for public readers.
+- [ ] Community, security, and contribution links and instructions remain accurate.
+- [ ] `docs/superpowers/` changes are design or planning history, not primary product documentation.
+
 ## Compatibility Impact
 
 - [ ] No compatibility impact.

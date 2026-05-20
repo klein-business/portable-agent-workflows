@@ -1,7 +1,7 @@
 # Portable Agent Workflows
 
 <p align="center">
-  <img alt="Private repository" src="https://img.shields.io/badge/repository-private-111827?style=for-the-badge">
+  <img alt="Public repository" src="https://img.shields.io/badge/repository-public-111827?style=for-the-badge">
   <img alt="Domain model agent-work-v1" src="https://img.shields.io/badge/domain-agent--work--v1-2563eb?style=for-the-badge">
   <img alt="Harness agnostic" src="https://img.shields.io/badge/harness-agnostic-0f766e?style=for-the-badge">
   <img alt="PR first" src="https://img.shields.io/badge/governance-PR--first-7c3aed?style=for-the-badge">
@@ -17,7 +17,7 @@
   <img alt="Python 3.11+" src="https://img.shields.io/badge/Python-3.11%2B-3776ab?style=for-the-badge&logo=python&logoColor=white">
   <img alt="uv" src="https://img.shields.io/badge/uv-managed-de5fe9?style=for-the-badge">
   <img alt="Ruff" src="https://img.shields.io/badge/Ruff-enabled-d7ff64?style=for-the-badge">
-  <img alt="pytest" src="https://img.shields.io/badge/pytest-15%20tests-0a9edc?style=for-the-badge">
+  <img alt="pytest validated" src="https://img.shields.io/badge/pytest-validated-0a9edc?style=for-the-badge">
 </p>
 
 <p align="center">
@@ -47,10 +47,21 @@ This model combines the strongest ideas from [obra/superpowers](https://github.c
 - It is not tied to one agent harness.
 - It does not mutate GitHub repository settings automatically.
 
+## Public Project Status
+
+Portable Agent Workflows is a public, MIT-licensed, open-source reference model.
+It is ready for evaluation, issues, and focused pull requests that improve the
+`agent-work-v1` model, documentation, validation, or generated harness entrypoints.
+
+The main reader path is this README, then `docs/overview.md`, then the `.agent-work/`
+source artifacts. `docs/superpowers/` records design and planning history; it is
+kept for transparency, not as the primary product documentation path.
+
 ## Enterprise Readiness
 
 - PR-first governance is documented in [CONTRIBUTING.md][contributing].
 - Security reporting is documented in [SECURITY.md][security].
+- Community standards are documented in [CODE_OF_CONDUCT.md][code-of-conduct].
 - License terms are published in [LICENSE][license].
 - Releases follow the [release policy][release-policy].
 - Release history is tracked in [CHANGELOG.md][changelog].
@@ -77,6 +88,7 @@ git diff --check
 - `.agent-work/skills/` contains the eleven V1 portable skills.
 - `.agent-work/plans/portable-agent-work-example/` demonstrates the full artifact lifecycle.
 - `AGENTS.md`, `CLAUDE.md`, `.claude/commands/`, and `.cursor/rules/` are generated native harness entrypoints.
+- `docs/superpowers/` records design and planning history for major changes.
 - `tools/generate_harness_integrations.py` regenerates native harness files from `.agent-work/`.
 - `tools/check_markdown_links.py` validates local Markdown links.
 - `tests/` validates model structure, generated files, and enterprise foundation artifacts.
@@ -125,6 +137,7 @@ See the [compatibility matrix][compatibility-matrix] for current support status.
 [adapters]: docs/modules/adapters.md
 [adrs]: docs/governance/adr/README.md
 [artifact-validation]: docs/features/artifact-validation.md
+[code-of-conduct]: CODE_OF_CONDUCT.md
 [compatibility-matrix]: docs/reference/compatibility-matrix.md
 [compatibility-policy]: docs/governance/compatibility-policy.md
 [changelog]: CHANGELOG.md
