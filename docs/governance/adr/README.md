@@ -25,4 +25,6 @@ Each ADR includes:
 
 ## Index
 
-- [0001: Enterprise Foundation](0001-enterprise-foundation.md)
+- [0001: Enterprise Foundation][adr-0001]
+
+[adr-0001]: 0001-enterprise-foundation.md
