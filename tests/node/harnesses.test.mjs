@@ -52,8 +52,8 @@ test("package metadata defines the npm distribution skeleton", async () => {
   assert.equal(manifest.version, "0.1.0");
   assert.equal(manifest.type, "module");
   assert.deepEqual(manifest.bin, {
-    "portable-agent-workflows": "./bin/portable-agent-workflows.mjs",
-    paw: "./bin/portable-agent-workflows.mjs",
+    "portable-agent-workflows": "bin/portable-agent-workflows.mjs",
+    paw: "bin/portable-agent-workflows.mjs",
   });
   assert.deepEqual(manifest.files, [
     ".agent-work/",
@@ -82,7 +82,7 @@ test("package bin targets exist and route to a useful CLI", async () => {
   const binTargets = new Set(Object.values(manifest.bin));
 
   for (const target of binTargets) {
-    await stat(new URL(`../..${target.slice(1)}`, import.meta.url));
+    await stat(new URL(`../../${target.replace(/^\.\//, "")}`, import.meta.url));
   }
 
   const help = spawnSync(process.execPath, ["bin/portable-agent-workflows.mjs", "--help"], {

@@ -5,8 +5,8 @@
   "license": "MIT",
   "type": "module",
   "bin": {
-    "portable-agent-workflows": "./bin/portable-agent-workflows.mjs",
-    "paw": "./bin/portable-agent-workflows.mjs"
+    "portable-agent-workflows": "bin/portable-agent-workflows.mjs",
+    "paw": "bin/portable-agent-workflows.mjs"
   },
   "files": [
     ".agent-work/",

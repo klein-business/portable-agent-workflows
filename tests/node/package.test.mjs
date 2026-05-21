@@ -18,6 +18,16 @@ function packageFiles() {
   return pack.files.map((file) => file.path);
 }
 
+function publishDryRunOutput() {
+  const result = spawnSync("npm", ["publish", "--dry-run", "--access", "public"], {
+    cwd: repoRoot,
+    encoding: "utf8",
+  });
+
+  assert.equal(result.status, 0, result.stderr);
+  return `${result.stdout}\n${result.stderr}`;
+}
+
 test("npm package includes installable harness files and runtime distribution files", () => {
   const packageFilePaths = packageFiles();
   const files = new Set(packageFilePaths);
@@ -39,6 +49,14 @@ test("npm package includes installable harness files and runtime distribution fi
 
     assert.ok(includesRequired, `package must include ${required}`);
   }
+});
+
+test("npm publish dry-run preserves bin metadata without auto-correction", () => {
+  const output = publishDryRunOutput();
+
+  assert.doesNotMatch(output, /auto-corrected/);
+  assert.doesNotMatch(output, /bin\[.*\].*invalid/);
+  assert.match(output, /\+ portable-agent-workflows@0\.1\.0/);
 });
 
 test("npm package excludes development-only files", () => {
