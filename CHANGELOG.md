@@ -5,6 +5,13 @@ All notable changes to this repository are documented here.
 This project follows Semantic Versioning for repository releases. The portable domain
 model version is tracked separately as `agent-work-v1`.
 
+## 0.1.1 - 2026-05-21
+
+### Changed
+
+- Added npm package metadata for repository, bugs, homepage, and keywords.
+- Kept installed manifests aligned with the published package version.
+
 ## 0.1.0 - 2026-05-21
 
 ### Added

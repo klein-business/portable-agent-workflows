@@ -1,9 +1,30 @@
 {
   "name": "portable-agent-workflows",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Portable, harness-agnostic agent workflows with shared skills, durable artifacts, review gates, and native integrations.",
   "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/klein-business/portable-agent-workflows.git"
+  },
+  "bugs": {
+    "url": "https://github.com/klein-business/portable-agent-workflows/issues"
+  },
+  "homepage": "https://github.com/klein-business/portable-agent-workflows#readme",
+  "keywords": [
+    "agent-workflows",
+    "agentic-workflows",
+    "ai-agents",
+    "coding-agents",
+    "codex",
+    "claude-code",
+    "cursor",
+    "opencode",
+    "harness-agnostic",
+    "portable-skills",
+    "workflow-automation"
+  ],
   "bin": {
     "portable-agent-workflows": "bin/portable-agent-workflows.mjs",
     "paw": "bin/portable-agent-workflows.mjs"

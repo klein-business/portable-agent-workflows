@@ -49,8 +49,29 @@ test("package metadata defines the npm distribution skeleton", async () => {
   const manifest = JSON.parse(await readFile(new URL("../../package.json", import.meta.url), "utf8"));
 
   assert.equal(manifest.name, "portable-agent-workflows");
-  assert.equal(manifest.version, "0.1.0");
+  assert.equal(manifest.version, "0.1.1");
   assert.equal(manifest.type, "module");
+  assert.deepEqual(manifest.repository, {
+    type: "git",
+    url: "git+https://github.com/klein-business/portable-agent-workflows.git",
+  });
+  assert.deepEqual(manifest.bugs, {
+    url: "https://github.com/klein-business/portable-agent-workflows/issues",
+  });
+  assert.equal(manifest.homepage, "https://github.com/klein-business/portable-agent-workflows#readme");
+  assert.deepEqual(manifest.keywords, [
+    "agent-workflows",
+    "agentic-workflows",
+    "ai-agents",
+    "coding-agents",
+    "codex",
+    "claude-code",
+    "cursor",
+    "opencode",
+    "harness-agnostic",
+    "portable-skills",
+    "workflow-automation",
+  ]);
   assert.deepEqual(manifest.bin, {
     "portable-agent-workflows": "bin/portable-agent-workflows.mjs",
     paw: "bin/portable-agent-workflows.mjs",

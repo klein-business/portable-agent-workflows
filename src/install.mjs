@@ -6,6 +6,8 @@ import { fileURLToPath } from "node:url";
 import { ALL_HARNESSES, filesForHarnesses, resolveHarnesses } from "./harnesses.mjs";
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const packageManifest = JSON.parse(fs.readFileSync(path.join(packageRoot, "package.json"), "utf8"));
+const packageVersion = packageManifest.version;
 
 function copyRecursive(source, target) {
   const stat = fs.statSync(source);
@@ -141,7 +143,7 @@ export function buildInstallActions(options) {
       JSON.stringify(
         {
           package: "portable-agent-workflows",
-          version: "0.1.0",
+          version: packageVersion,
           harnesses: harnesses.map((harness) => harness.id),
           files,
         },

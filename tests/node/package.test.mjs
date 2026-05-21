@@ -1,11 +1,15 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import fs from "node:fs";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { filesForHarnesses, resolveHarnesses } from "../../src/harnesses.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+const packageManifest = JSON.parse(
+  fs.readFileSync(path.join(repoRoot, "package.json"), "utf8"),
+);
 
 function packageFiles() {
   const result = spawnSync("npm", ["pack", "--dry-run", "--json"], {
@@ -56,7 +60,7 @@ test("npm publish dry-run preserves bin metadata without auto-correction", () =>
 
   assert.doesNotMatch(output, /auto-corrected/);
   assert.doesNotMatch(output, /bin\[.*\].*invalid/);
-  assert.match(output, /\+ portable-agent-workflows@0\.1\.0/);
+  assert.match(output, new RegExp(`\\+ portable-agent-workflows@${packageManifest.version.replaceAll(".", "\\.")}`));
 });
 
 test("npm package excludes development-only files", () => {

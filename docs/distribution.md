@@ -76,11 +76,11 @@ GitHub releases from CI.
 6. Run the local tarball smoke test in a clean temporary repository:
 
    ```bash
-   npm exec --yes --package ./portable-agent-workflows-0.1.0.tgz -- portable-agent-workflows init --harness codex,claude,cursor,opencode --yes
-   npm exec --yes --package ./portable-agent-workflows-0.1.0.tgz -- portable-agent-workflows check
+   npm exec --yes --package ./portable-agent-workflows-<version>.tgz -- portable-agent-workflows init --harness codex,claude,cursor,opencode --yes
+   npm exec --yes --package ./portable-agent-workflows-<version>.tgz -- portable-agent-workflows check
    ```
 
 7. Publish npm manually with `npm publish --access public`.
-8. Tag the release with `git tag v0.1.0`.
-9. Push the tag with `git push origin v0.1.0`.
+8. Tag the release with `git tag v<version>`.
+9. Push the tag with `git push origin v<version>`.
 10. Publish GitHub release notes from `CHANGELOG.md`.

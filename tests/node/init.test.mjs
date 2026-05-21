@@ -6,6 +6,10 @@ import test from "node:test";
 
 import { buildInstallActions, runInit } from "../../src/install.mjs";
 
+const packageManifest = JSON.parse(
+  fs.readFileSync(new URL("../../package.json", import.meta.url), "utf8"),
+);
+
 function tempTarget() {
   return fs.mkdtempSync(path.join(os.tmpdir(), "paw-init-"));
 }
@@ -60,6 +64,7 @@ test("init installs selected harness files and manifest", async () => {
     fs.readFileSync(path.join(target, ".agent-work/install.json"), "utf8"),
   );
   assert.deepEqual(manifest.harnesses, ["codex", "claude"]);
+  assert.equal(manifest.version, packageManifest.version);
 });
 
 test("init requires an explicit harness selection or yes for all harnesses", async () => {
