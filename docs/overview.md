@@ -1,18 +1,18 @@
 ---
 type: documentation
 entity: project-overview
-version: 1.2
+version: 1.3
 ---
 
 # Portable Agent Workflows
 
 ## Purpose
 
-Portable Agent Workflows defines a harness-agnostic workflow layer for coding agents. It provides a shared domain model, portable skill format, adapter mappings, persistent lifecycle artifacts, and structural tests so Codex, OpenCode, Claude Code, Cursor, and similar harnesses can run the same workflow model without sharing concrete tool names or hidden chat state.
+Portable Agent Workflows defines a harness-agnostic workflow layer for coding agents. It provides a shared domain model, portable skill format, adapter mappings, persistent lifecycle artifacts, a project-local npm initializer, and structural tests so Codex, OpenCode, Claude Code, Cursor, and similar harnesses can run the same workflow model without sharing concrete tool names or hidden chat state.
 
 ## Architecture
 
-The repository is documentation-and-artifact first. The canonical model lives under `.agent-work/`; tests verify that the artifact graph remains coherent. Runtime-specific behavior is isolated in adapters, while portable skills describe role-based workflows in neutral terms.
+The repository is documentation-and-artifact first. The canonical model lives under `.agent-work/`; tests verify that the artifact graph remains coherent. Runtime-specific behavior is isolated in adapters, while portable skills describe role-based workflows in neutral terms. Distribution is intentionally thin: the npm package exposes CLI commands that copy and verify project-local artifacts rather than providing an importable runtime framework.
 
 ## Enterprise Foundation
 
@@ -43,11 +43,16 @@ Persistent plan/spec/review/handover artifacts
     |
     v
 tests/test_agent_work_artifacts.py and tests/test_harness_integrations.py validation
+    |
+    v
+npm initializer installs selected project-local entrypoints
 ```
 
 ### Tech Stack
 
 - Markdown frontmatter and structured Markdown artifacts.
+- Node.js 20+ built-ins for the npm initializer and distribution checks.
+- `node:test` for CLI, installer, package, and registry-facing package checks.
 - Python 3.11+ for validation tests.
 - `pytest` for structural test execution.
 - `ruff` for linting and formatting checks.
@@ -60,6 +65,7 @@ tests/test_agent_work_artifacts.py and tests/test_harness_integrations.py valida
 | Domain Model | Defines `agent-work-v1` vocabulary, roles, artifact kinds, gates, and design rules. | [Detail](modules/domain-model.md) |
 | Adapters | Maps neutral roles and capabilities to Codex, OpenCode, Claude Code, and Cursor execution patterns. | [Detail](modules/adapters.md) |
 | Harness Generator | Renders native Codex, Claude Code, and Cursor entrypoints from `.agent-work/` source artifacts and templates. | [Detail](modules/harness-generator.md) |
+| Distribution | Publishes the project-local initializer and documents safe install/check behavior. | [Detail](distribution.md) |
 | Skills | Contains the eleven V1 portable skills and their required metadata, gates, workflow sections, and boundaries. | [Detail](modules/skills.md) |
 | Lifecycle Example | Demonstrates the full artifact lifecycle from spec through handover. | [Detail](modules/lifecycle-example.md) |
 | Validation Tests | Verifies glossary, adapter, skill, generated-file, and example-artifact consistency. | [Detail](modules/validation-tests.md) |
@@ -72,6 +78,7 @@ tests/test_agent_work_artifacts.py and tests/test_harness_integrations.py valida
 | Harness Adapters | Keeps workflows portable while allowing each harness to map roles and capabilities to its own execution model. | [Detail](features/harness-adapters.md) |
 | Generated Harness Integration | Generates thin native entrypoints for Codex, Claude Code, and Cursor from `.agent-work/` source artifacts. | [Detail](features/generated-harness-integration.md) |
 | Artifact Validation | Catches structural drift in glossary terms, adapters, skill metadata, gates, and lifecycle examples. | [Detail](features/artifact-validation.md) |
+| Project-Local Distribution | Installs and checks selected harness artifacts through `npx portable-agent-workflows`. | [Detail](distribution.md) |
 
 ## Development
 
@@ -91,13 +98,14 @@ python -m pip install pytest ruff
 
 ### Build & Run
 
-There is no runtime build step. This repository ships Markdown artifacts plus tests, not an importable runtime library.
+There is no runtime build step. This repository ships Markdown artifacts plus a small npm CLI initializer, not an importable runtime library.
 
 ### Testing
 
 Run the full validation suite:
 
 ```bash
+npm run check:node
 uv run python tools/generate_harness_integrations.py --check
 uv run pytest tests/ -v
 uv run ruff check tests/ tools/
@@ -105,7 +113,7 @@ uv run ruff format --check tests/ tools/
 uv run python tools/check_markdown_links.py
 ```
 
-The test strategy is structural: it checks required terms, role mappings, skill shape, gate vocabulary, generated harness-file currentness, and example lifecycle frontmatter.
+The test strategy is structural: it checks required terms, role mappings, skill shape, gate vocabulary, generated harness-file currentness, npm package contents, publish dry-run behavior, CLI safety, and example lifecycle frontmatter.
 
 ## Process History
 

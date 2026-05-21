@@ -2,7 +2,7 @@
 type: documentation
 entity: module
 module: "validation-tests"
-version: 1.1
+version: 1.2
 ---
 
 # Module: validation-tests
@@ -11,11 +11,11 @@ version: 1.1
 
 ## Overview
 
-The validation-tests module verifies that the Markdown artifacts remain structurally coherent. It checks required glossary terms, adapter sections, skill metadata, gate definitions, generated harness currentness, example lifecycle frontmatter, enterprise foundation files, public-readiness files, and license metadata.
+The validation-tests module verifies that the Markdown artifacts, generated files, and npm distribution surface remain structurally coherent. It checks required glossary terms, adapter sections, skill metadata, gate definitions, generated harness currentness, project-local distribution files, example lifecycle frontmatter, enterprise foundation files, public-readiness files, package metadata, publish dry-run behavior, and license metadata.
 
 ### Responsibility
 
-This module is responsible for structural validation only. It does not execute a real harness workflow, validate all Markdown prose semantically, or prove production readiness for future skills.
+This module is responsible for structural validation only. It does not execute a real hosted harness workflow, validate all Markdown prose semantically, or prove production readiness for future skills.
 
 ### Dependencies
 
@@ -26,6 +26,7 @@ This module is responsible for structural validation only. It does not execute a
 | Skills | module | Source for skill metadata and required body sections. |
 | Harness Generator | module | Source for generated native harness files and currentness checks. |
 | Lifecycle Example | module | Source for example artifact existence, kinds, and statuses. |
+| `node:test` | library | Runs Node distribution, CLI, installer, checker, and package tests. |
 | `pytest` | library | Runs the validation tests. |
 | `ruff` | library | Checks and formats the Python test file. |
 
@@ -37,7 +38,14 @@ This module is responsible for structural validation only. It does not execute a
 | `tests/test_agent_work_artifacts.py` | file | Structural validation suite for `.agent-work/` artifacts. |
 | `tests/test_harness_integrations.py` | file | Validation suite for generated native harness integration files. |
 | `tests/test_enterprise_foundation.py` | file | Validation suite for enterprise governance, security, admin, reference, and compatibility artifacts. |
+| `tests/node/` | dir | Node test suite for harness metadata, CLI behavior, install/check safety, and npm packaging. |
+| `tests/node/harnesses.test.mjs` | file | Validates harness metadata and npm package metadata. |
+| `tests/node/cli.test.mjs` | file | Validates CLI argument parsing, help output, and interactive `init` behavior. |
+| `tests/node/init.test.mjs` | file | Validates project-local init behavior, install manifest versioning, overwrite rules, and write-safety boundaries. |
+| `tests/node/check.test.mjs` | file | Validates read-only installed-file verification, drift detection, manifest handling, and symlink defenses. |
+| `tests/node/package.test.mjs` | file | Validates npm package contents, development-file exclusions, and publish dry-run metadata. |
 | `tools/check_markdown_links.py` | file | Repository-owned local Markdown link checker used by CI and quality gates. |
+| `package.json` | file | Declares npm package metadata, binary commands, packaged file allowlist, and Node check scripts. |
 | `pyproject.toml` | file | Declares Python version, dev dependencies, pytest test path, and ruff settings. |
 
 ## Key Symbols
@@ -67,6 +75,17 @@ This module is responsible for structural validation only. It does not execute a
 | `MARKER` | const | internal | `tests/test_harness_integrations.py:16` | Defines the generated-file marker required in every native harness file. |
 | `test_generated_harness_files_exist_with_marker_and_agent_work_references` | function | internal | `tests/test_harness_integrations.py:23` | Verifies generated files exist, are marked, reference `.agent-work/`, and avoid redefining the domain model. |
 | `test_generated_harness_files_are_current` | function | internal | `tests/test_harness_integrations.py:33` | Runs generator `--check` to prevent stale generated files. |
+| `test_distribution_files_exist_and_reference_agent_work` | function | internal | `tests/test_harness_integrations.py:44` | Verifies installable distribution files exist and point back to `.agent-work/`. |
+| `ALL_HARNESSES` | const | public | `src/harnesses.mjs:1` | Defines supported harness IDs, display names, stability, and installable files for the npm initializer. |
+| `resolveHarnesses` | function | public | `src/harnesses.mjs:30` | Parses and validates selected harness lists. |
+| `filesForHarnesses` | function | public | `src/harnesses.mjs:49` | Returns unique installable file paths for selected harnesses. |
+| `parseArgs` | function | public | `src/cli.mjs:8` | Parses CLI commands and shared options. |
+| `buildInstallActions` | function | public | `src/install.mjs:126` | Builds project-local install actions and manifest content. |
+| `runInit` | function | public | `src/install.mjs:155` | Implements safe project-local installation. |
+| `runCheck` | function | public | `src/check.mjs:156` | Implements read-only installed-file verification. |
+| `test_package_metadata_defines_the_npm_distribution_skeleton` | function | internal | `tests/node/harnesses.test.mjs:48` | Verifies npm version, repository, bugs, homepage, keywords, bin mappings, file allowlist, scripts, and engines. |
+| `test_npm_package_includes_installable_harness_files_and_runtime_distribution_files` | function | internal | `tests/node/package.test.mjs:35` | Verifies package contents include runtime and installable files. |
+| `test_npm_publish_dry_run_preserves_bin_metadata_without_auto_correction` | function | internal | `tests/node/package.test.mjs:58` | Verifies npm publish dry-run does not auto-correct away bin metadata. |
 | `REQUIRED_ENTERPRISE_FILES` | const | internal | `tests/test_enterprise_foundation.py:10` | Lists governance, security, admin, CI, issue intake, license, code of conduct, public-readiness, and reference files required for the enterprise foundation. |
 | `SUPPORTED_HARNESSES` | const | internal | `tests/test_enterprise_foundation.py:34` | Maps adapter file names to display names expected in the compatibility matrix. |
 | `REQUIRED_README_LINKS` | const | internal | `tests/test_enterprise_foundation.py:41` | Lists enterprise, license, code-of-conduct, and public-readiness entrypoints that README.md must reference. |
@@ -96,11 +115,11 @@ This module is responsible for structural validation only. It does not execute a
 
 ## Data Flow
 
-Tests load files from `.agent-work/`, parse frontmatter with simple regular expressions, assert consistency between the glossary, adapter files, skill definitions, lifecycle example artifacts, generated harness files, and enterprise foundation documents, then run the harness generator and Markdown link checker to prevent generated-file and documentation-link drift.
+Tests load files from `.agent-work/`, parse frontmatter with simple regular expressions, assert consistency between the glossary, adapter files, skill definitions, lifecycle example artifacts, generated harness files, distribution files, npm package metadata, and enterprise foundation documents, then run the harness generator, npm packaging checks, and Markdown link checker to prevent generated-file, package, and documentation-link drift.
 
 ## Configuration
 
-`pyproject.toml` sets `testpaths = ["tests"]`, Python target `py311`, ruff line length `100`, and dev dependencies `pytest` and `ruff`.
+`package.json` defines `test:node`, `pack:check`, and `check:node`. `pyproject.toml` sets `testpaths = ["tests"]`, Python target `py311`, ruff line length `100`, and dev dependencies `pytest` and `ruff`.
 
 ## Enterprise Foundation Validation
 
@@ -120,7 +139,20 @@ It checks:
 
 `tools/check_markdown_links.py` provides the repository-owned local Markdown link check used by CI.
 
+## Node Distribution Validation
+
+Node validation is implemented in `tests/node/`.
+
+It checks:
+
+- supported harness metadata and installable file lists
+- CLI parsing, help output, and non-interactive safety behavior
+- `init` dry-run, overwrite, manifest versioning, symlink, and target-root safety
+- `check` read-only drift detection and manifest validation
+- package file contents and development-only file exclusions
+- npm publish dry-run behavior, including preservation of binary metadata
+
 ## Inventory Notes
 
 - **Coverage**: full
-- **Notes**: Inventory covers every test helper, constant, test function, link-check helper, and configuration file relevant to validation.
+- **Notes**: Inventory covers Python validation, Node distribution checks, package metadata checks, link-check helpers, and configuration files relevant to validation.

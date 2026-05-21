@@ -1,6 +1,7 @@
 # Portable Agent Workflows
 
 <p align="center">
+  <a href="https://www.npmjs.com/package/portable-agent-workflows"><img alt="npm version" src="https://img.shields.io/npm/v/portable-agent-workflows?style=for-the-badge&color=cb3837&label=npm"></a>
   <img alt="Public repository" src="https://img.shields.io/badge/repository-public-111827?style=for-the-badge">
   <img alt="Domain model agent-work-v1" src="https://img.shields.io/badge/domain-agent--work--v1-2563eb?style=for-the-badge">
   <img alt="Harness agnostic" src="https://img.shields.io/badge/harness-agnostic-0f766e?style=for-the-badge">
@@ -39,6 +40,7 @@ This model combines the strongest ideas from [obra/superpowers](https://github.c
 - A portable workflow and artifact model for coding agents.
 - A set of harness-agnostic skills under `.agent-work/skills/`.
 - A generated integration layer for Codex, Claude Code, and Cursor.
+- A project-local npm initializer for Codex, Claude Code, Cursor, and OpenCode.
 - A governance-backed reference repository for `agent-work-v1`.
 
 ## What This Repository Is Not
@@ -76,6 +78,7 @@ kept for transparency, not as the primary product documentation path.
 ## Quality Gates
 
 ```bash
+npm run check:node
 uv run python tools/generate_harness_integrations.py --check
 uv run pytest tests/ -v
 uv run ruff check tests/ tools/
@@ -90,7 +93,8 @@ git diff --check
 - `.agent-work/adapters/` maps neutral roles and capabilities to Codex, OpenCode, Claude Code, and Cursor.
 - `.agent-work/skills/` contains the eleven V1 portable skills.
 - `.agent-work/plans/portable-agent-work-example/` demonstrates the full artifact lifecycle.
-- `AGENTS.md`, `CLAUDE.md`, `.claude/commands/`, and `.cursor/rules/` are generated native harness entrypoints.
+- `package.json`, `bin/`, and `src/` publish the `portable-agent-workflows` and `paw` npm commands.
+- `AGENTS.md`, `CLAUDE.md`, `.claude/commands/`, `.cursor/rules/`, and `.opencode/commands/` provide native harness entrypoints.
 - `docs/superpowers/` records design and planning history for major changes.
 - `tools/generate_harness_integrations.py` regenerates native harness files from `.agent-work/`.
 - `tools/check_markdown_links.py` validates local Markdown links.
@@ -133,6 +137,7 @@ uv sync --dev
 Run validation:
 
 ```bash
+npm run check:node
 uv run python tools/generate_harness_integrations.py --check
 uv run pytest tests/ -v
 uv run ruff check tests/ tools/
@@ -193,4 +198,4 @@ See the [compatibility matrix][compatibility-matrix] for current support status.
 
 ## Repository Status
 
-This repository is a documentation-and-artifact model. It does not ship a runtime library. The tests validate that the files remain structurally coherent.
+This repository is a documentation-and-artifact model with a small npm initializer. It does not ship an importable runtime library; the CLI only installs and verifies project-local workflow files. The tests validate that the package, generated files, and artifacts remain structurally coherent.
